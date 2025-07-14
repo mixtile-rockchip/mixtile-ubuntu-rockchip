@@ -1,0 +1,38 @@
+From a3cc96b0ac000058d435857ed1ac331723baee81 Mon Sep 17 00:00:00 2001
+From: Ricardo Pardini <ricardo@pardini.net>
+Date: Thu, 6 Jun 2024 23:00:05 +0200
+Subject: [PATCH 58/74] arm64: dts: rockchip: Add NanoPC T6 SPI Flash
+
+Signed-off-by: Ricardo Pardini <ricardo@pardini.net>
+---
+ arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts
+index ad8e36a339dc..2085e73a4464 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts
+@@ -576,6 +576,20 @@ &sdmmc {
+ 	status = "okay";
+ };
+ 
++&sfc {
++	pinctrl-names = "default";
++	pinctrl-0 = <&fspim1_pins>;
++	status = "okay";
++
++	flash@0 {
++		compatible = "jedec,spi-nor";
++		reg = <0x0>;
++		spi-max-frequency = <50000000>;
++		spi-rx-bus-width = <4>;
++		spi-tx-bus-width = <1>;
++	};
++};
++
+ &spi2 {
+ 	status = "okay";
+ 	assigned-clocks = <&cru CLK_SPI2>;
+-- 
+2.43.0
+

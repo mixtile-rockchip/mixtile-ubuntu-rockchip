@@ -1,0 +1,26 @@
+From c2f52bc5af8bb6f35c24c61911f828cacad285a9 Mon Sep 17 00:00:00 2001
+From: ewaldc <ewald_comhaire@hotmail.com>
+Date: Wed, 17 Jul 2024 09:47:20 +0200
+Subject: [PATCH 331/364] Add support for HP T99W175 5G Modem
+
+---
+ drivers/bus/mhi/host/pci_generic.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+index caa4ce28cf9e..f3ec044c1d0e 100644
+--- a/drivers/bus/mhi/host/pci_generic.c
++++ b/drivers/bus/mhi/host/pci_generic.c
+@@ -594,6 +594,9 @@ static const struct pci_device_id mhi_pci_id_table[] = {
+ 	/* MV32-WB (Cinterion) */
+ 	{ PCI_DEVICE(0x1269, 0x00bb),
+ 		.driver_data = (kernel_ulong_t) &mhi_mv32_info },
++    /* T99W175 (sdx55), HP variant */
++    { PCI_DEVICE(0x03f0, 0x0a6c),
++        .driver_data = (kernel_ulong_t) &mhi_foxconn_sdx55_info },
+ 	{  }
+ };
+ MODULE_DEVICE_TABLE(pci, mhi_pci_id_table);
+-- 
+2.43.0
+

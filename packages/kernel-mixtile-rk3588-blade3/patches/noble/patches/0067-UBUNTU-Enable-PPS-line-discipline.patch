@@ -1,0 +1,25 @@
+From 0586a7509a7b334a97e7b5e6486e6b35fb1cc090 Mon Sep 17 00:00:00 2001
+From: Joshua-Riek <jjriek@verizon.net>
+Date: Sat, 19 Oct 2024 13:05:19 -0400
+Subject: [PATCH 358/364] UBUNTU: Enable PPS line discipline
+
+---
+ debian.rockchip/config/config.common.ubuntu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index 5776705e16f6..e84410c88929 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -3857,7 +3857,7 @@ CONFIG_PPS=y
+ # PPS clients support
+ #
+ CONFIG_PPS_CLIENT_KTIMER=m
+-# CONFIG_PPS_CLIENT_LDISC is not set
++CONFIG_PPS_CLIENT_LDISC=m
+ CONFIG_PPS_CLIENT_GPIO=m
+ 
+ #
+-- 
+2.43.0
+

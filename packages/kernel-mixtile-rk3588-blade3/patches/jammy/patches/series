@@ -1,0 +1,9 @@
+0001-UBUNTU-add-base-packaging.patch
+0002-UBUNTU-add-rockchip-flavor.patch
+0003-UBUNTU-Ubuntu-rockchip-5.10.0-1010.10.patch
+0004-UBUNTU-Ubuntu-rockchip-5.10.0-1011.11.patch
+0005-UBUNTU-Enable-BPF-tools.patch
+0006-UBUNTU-Replace-grub-from-recommends-with-u-boot-menu.patch
+0007-UBUNTU-Ubuntu-rockchip-5.10.0-1012.12.patch
+0008-enable-CONFIG_R8169.patch
+0009-add-vendor-storage-mac-support.patch

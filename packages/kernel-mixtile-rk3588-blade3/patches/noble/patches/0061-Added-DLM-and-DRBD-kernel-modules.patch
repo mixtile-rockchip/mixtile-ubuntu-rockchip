@@ -1,0 +1,38 @@
+From c0df8926e3c2a60b6dd990be65659430fbb11fe9 Mon Sep 17 00:00:00 2001
+From: Henrik Johnson <spam@henrik.org>
+Date: Mon, 16 Sep 2024 15:35:50 -0700
+Subject: [PATCH 349/364] Added DLM and DRBD kernel modules
+
+---
+ debian.rockchip/config/config.common.ubuntu | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index ae4575cad5de..3087f0dd2152 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -2156,7 +2156,7 @@ CONFIG_ZRAM_DEF_COMP="lzo-rle"
+ # CONFIG_ZRAM_MEMORY_TRACKING is not set
+ CONFIG_BLK_DEV_LOOP=y
+ CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
+-# CONFIG_BLK_DEV_DRBD is not set
++CONFIG_BLK_DEV_DRBD=m
+ CONFIG_BLK_DEV_NBD=m
+ CONFIG_BLK_DEV_RAM=y
+ CONFIG_BLK_DEV_RAM_COUNT=1
+@@ -8452,10 +8452,12 @@ CONFIG_XFS_RT=y
+ CONFIG_XFS_WARN=y
+ # CONFIG_XFS_DEBUG is not set
+ CONFIG_GFS2_FS=m
++CONFIG_GFS2_FS_LOCKING_DLM=y
+ CONFIG_OCFS2_FS=m
+ CONFIG_OCFS2_FS_O2CB=m
+ CONFIG_OCFS2_FS_STATS=y
+ CONFIG_OCFS2_DEBUG_MASKLOG=y
++CONFIG_DLM=m
+ # CONFIG_OCFS2_DEBUG_FS is not set
+ CONFIG_BTRFS_FS=y
+ CONFIG_BTRFS_FS_POSIX_ACL=y
+-- 
+2.43.0
+

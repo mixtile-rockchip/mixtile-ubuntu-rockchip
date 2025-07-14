@@ -1,0 +1,33 @@
+From e21cf49ee9a41a02846da050a6930e317bc99b68 Mon Sep 17 00:00:00 2001
+From: martin-0 <martin@triveverky.cz>
+Date: Wed, 19 Mar 2025 21:33:30 +0100
+Subject: [PATCH 364/364] add TCM modules to config
+
+---
+ debian.rockchip/config/config.common.ubuntu | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index ec4f839a1cd6..58006074bbc0 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -2425,11 +2425,11 @@ CONFIG_DM_LOG_WRITES=m
+ # CONFIG_DM_INTEGRITY is not set
+ # CONFIG_DM_AUDIT is not set
+ CONFIG_TARGET_CORE=m
+-# CONFIG_TCM_IBLOCK is not set
+-# CONFIG_TCM_FILEIO is not set
+-# CONFIG_TCM_PSCSI is not set
+-# CONFIG_TCM_USER2 is not set
+-# CONFIG_LOOPBACK_TARGET is not set
++CONFIG_TCM_IBLOCK=m
++CONFIG_TCM_FILEIO=m
++CONFIG_TCM_PSCSI=m
++CONFIG_TCM_USER2=m
++CONFIG_LOOPBACK_TARGET=m
+ CONFIG_ISCSI_TARGET=m
+ # CONFIG_FUSION is not set
+ 
+-- 
+2.43.0
+

@@ -1,0 +1,27 @@
+From a0ee49aacb58a9b6e498983e4ae1205391a4d380 Mon Sep 17 00:00:00 2001
+From: baiywt <baiywt_gj@163.com>
+Date: Wed, 22 Nov 2023 22:14:27 +0800
+Subject: [PATCH 218/364] net: phy: motorcomm: Fix led
+
+---
+ drivers/net/phy/motorcomm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/net/phy/motorcomm.c b/drivers/net/phy/motorcomm.c
+index a618df511257..e4f3178a1485 100644
+--- a/drivers/net/phy/motorcomm.c
++++ b/drivers/net/phy/motorcomm.c
+@@ -957,6 +957,10 @@ static int yt8531_rxclk_duty_init(struct phy_device *phydev)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ytphy_write_ext(phydev, 0xa00d, 0x670);
++	ytphy_write_ext(phydev, 0xa00e, 0x2070);
++	ytphy_write_ext(phydev, 0xa00f, 0x7e);
++
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
+

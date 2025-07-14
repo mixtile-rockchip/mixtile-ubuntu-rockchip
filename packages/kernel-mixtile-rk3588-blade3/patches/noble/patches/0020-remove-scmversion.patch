@@ -1,0 +1,16 @@
+From 7fc9d5dc43247e81485f79a5844a8914fb625505 Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Wed, 28 Feb 2024 15:45:43 -0500
+Subject: [PATCH 242/364] remove scmversion
+
+---
+ .scmversion | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 .scmversion
+
+diff --git a/.scmversion b/.scmversion
+deleted file mode 100644
+index e69de29bb2d1..000000000000
+-- 
+2.43.0
+

@@ -1,0 +1,50 @@
+From fd2d02eac816357903442e2827f1714b186c772d Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Wed, 8 May 2024 05:06:26 -0400
+Subject: [PATCH 276/364] arm64: dts: rockchip: add Orange Pi 5 sata device
+ tree
+
+---
+ arch/arm64/boot/dts/rockchip/Makefile           |  1 +
+ .../dts/rockchip/rk3588s-orangepi-5-sata.dts    | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100755 arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-sata.dts
+
+diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
+index 2666c948e27f..87a5e89e849f 100644
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -376,6 +376,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-lubancat-4.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-nanopi-r6c.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-nanopi-r6s.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-orangepi-5.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-orangepi-5-sata.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-orangepi-5b.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-orangepi-5-pro.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-radxa-cm5-io.dtb
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-sata.dts b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-sata.dts
+new file mode 100755
+index 000000000000..1589f76d54f6
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5-sata.dts
+@@ -0,0 +1,17 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
++ *
++ */
++
++/dts-v1/;
++
++#include "rk3588s-orangepi-5.dts"
++
++&sata0 {
++	status = "okay";
++};
++
++&pcie2x1l2 {
++	status = "disabled";
++};
+-- 
+2.43.0
+

@@ -1,0 +1,26 @@
+From 13e7324b4c30a6257af221f9e02567c667888e09 Mon Sep 17 00:00:00 2001
+From: baiywt <baiywt_gj@163.com>
+Date: Wed, 24 Jan 2024 09:11:47 +0800
+Subject: [PATCH 219/364] net: wireless: rockchip_wlan: bcmdhd: Remove
+ WL_STATIC_IF flag
+
+---
+ drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd/Makefile b/drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd/Makefile
+index e7e40e70264d..b594af1a41ff 100755
+--- a/drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd/Makefile
++++ b/drivers/net/wireless/rockchip_wlan/rkwifi/bcmdhd/Makefile
+@@ -324,7 +324,7 @@ ifneq ($(CONFIG_CFG80211),)
+ ifneq ($(CONFIG_BCMDHD_SDIO),)
+ 	DHDCFLAGS += -DRXF_DEQUEUE_ON_BUSY
+ endif
+-	DHDCFLAGS += -DWL_STATIC_IF
++#	DHDCFLAGS += -DWL_STATIC_IF
+ endif
+ endif
+ 
+-- 
+2.43.0
+

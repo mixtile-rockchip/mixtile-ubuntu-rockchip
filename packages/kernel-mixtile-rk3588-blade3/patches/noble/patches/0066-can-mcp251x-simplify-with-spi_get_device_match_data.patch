@@ -1,0 +1,43 @@
+From dac0115bbc928c94eec4558821ee0a89a77e29a9 Mon Sep 17 00:00:00 2001
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Date: Thu, 6 Jun 2024 16:24:23 +0200
+Subject: [PATCH 355/364] can: mcp251x: simplify with
+ spi_get_device_match_data()
+
+Use spi_get_device_match_data() helper to simplify a bit the driver.
+
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Link: https://lore.kernel.org/all/20240606142424.129709-2-krzysztof.kozlowski@linaro.org
+[mkl: add intermediate cast to uintptr_t]
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+ drivers/net/can/spi/mcp251x.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/net/can/spi/mcp251x.c b/drivers/net/can/spi/mcp251x.c
+index 643974b3f329..3b8736ff0345 100644
+--- a/drivers/net/can/spi/mcp251x.c
++++ b/drivers/net/can/spi/mcp251x.c
+@@ -1300,7 +1300,6 @@ MODULE_DEVICE_TABLE(spi, mcp251x_id_table);
+ 
+ static int mcp251x_can_probe(struct spi_device *spi)
+ {
+-	const void *match = device_get_match_data(&spi->dev);
+ 	struct net_device *net;
+ 	struct mcp251x_priv *priv;
+ 	struct clk *clk;
+@@ -1338,10 +1337,7 @@ static int mcp251x_can_probe(struct spi_device *spi)
+ 	priv->can.clock.freq = freq / 2;
+ 	priv->can.ctrlmode_supported = CAN_CTRLMODE_3_SAMPLES |
+ 		CAN_CTRLMODE_LOOPBACK | CAN_CTRLMODE_LISTENONLY;
+-	if (match)
+-		priv->model = (enum mcp251x_model)(uintptr_t)match;
+-	else
+-		priv->model = spi_get_device_id(spi)->driver_data;
++	priv->model = (enum mcp251x_model)(uintptr_t)spi_get_device_match_data(spi);
+ 	priv->net = net;
+ 	priv->clk = clk;
+ 
+-- 
+2.43.0
+

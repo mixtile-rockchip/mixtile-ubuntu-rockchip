@@ -1,0 +1,77 @@
+From 3ee826b73f0f5523ab1c2edb9754da817bcb595a Mon Sep 17 00:00:00 2001
+From: Stephen Chen <stephen@radxa.com>
+Date: Thu, 17 Nov 2022 16:36:10 +0800
+Subject: [PATCH 288/364] input: touchscreen: gt9xx: add cj080258 gt911 config
+
+Signed-off-by: Stephen Chen <stephen@radxa.com>
+---
+ .../gt9xx/CJ080258_GT911_Config_20220425_085548.cfg  |  1 +
+ drivers/input/touchscreen/gt9xx/gt9xx.c              | 12 ++++++++++++
+ drivers/input/touchscreen/gt9xx/gt9xx_cfg.h          |  5 +++++
+ 3 files changed, 18 insertions(+)
+ create mode 100644 drivers/input/touchscreen/gt9xx/CJ080258_GT911_Config_20220425_085548.cfg
+
+diff --git a/drivers/input/touchscreen/gt9xx/CJ080258_GT911_Config_20220425_085548.cfg b/drivers/input/touchscreen/gt9xx/CJ080258_GT911_Config_20220425_085548.cfg
+new file mode 100644
+index 000000000000..7509679eb174
+--- /dev/null
++++ b/drivers/input/touchscreen/gt9xx/CJ080258_GT911_Config_20220425_085548.cfg
+@@ -0,0 +1 @@
++0x62,0x20,0x03,0x00,0x05,0x0A,0x05,0x00,0x01,0x08,0x28,0x05,0x50,0x32,0x03,0x05,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x8C,0x2A,0x0E,0x17,0x15,0x31,0x0D,0x00,0x00,0x01,0x9A,0x04,0x1D,0x00,0x00,0x00,0x00,0x00,0x03,0x64,0x32,0x00,0x00,0x00,0x0F,0x36,0x94,0xC5,0x02,0x07,0x00,0x00,0x04,0x9B,0x11,0x00,0x7B,0x16,0x00,0x64,0x1C,0x00,0x4F,0x25,0x00,0x41,0x2F,0x00,0x41,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x1C,0x1A,0x18,0x16,0x14,0x12,0x10,0x0E,0x0C,0x0A,0x08,0x06,0x04,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x24,0x22,0x21,0x20,0x1F,0x1E,0x1D,0x1C,0x18,0x16,0x14,0x13,0x12,0x10,0x0F,0x0C,0x0A,0x08,0x06,0x04,0x02,0x00,0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x1C,0x01
+\ No newline at end of file
+diff --git a/drivers/input/touchscreen/gt9xx/gt9xx.c b/drivers/input/touchscreen/gt9xx/gt9xx.c
+index 93fb525dac31..aa79c72d5871 100644
+--- a/drivers/input/touchscreen/gt9xx/gt9xx.c
++++ b/drivers/input/touchscreen/gt9xx/gt9xx.c
+@@ -60,6 +60,7 @@ static u8 m89or101 = TRUE;
+ static u8 bgt911 = FALSE;
+ static u8 bgt9110 = FALSE;
+ static u8 bgt9111 = FALSE;
++static u8 bgt9112 = FALSE;
+ static u8 bgt970 = FALSE;
+ static u8 bgt910 = FALSE;
+ static u8 gtp_change_x2y = TRUE;
+@@ -1462,6 +1463,11 @@ static s32 gtp_init_panel(struct goodix_ts_data *ts)
+ 		cfg_info_len[0] =  CFG_GROUP_LEN(gtp_dat_gt9111);
+ 	}
+ 
++	if (bgt9112) {
++		send_cfg_buf[0] = gtp_dat_gt9112;
++		cfg_info_len[0] = CFG_GROUP_LEN(gtp_dat_gt9112);
++	}
++
+ 	if (bgt970) {
+ 		send_cfg_buf[0] = gtp_dat_9_7;
+ 		cfg_info_len[0] = CFG_GROUP_LEN(gtp_dat_9_7);
+@@ -2679,6 +2685,12 @@ static int goodix_ts_probe(struct i2c_client *client, const struct i2c_device_id
+ 		gtp_change_x2y = TRUE;
+ 		gtp_x_reverse = FALSE;
+ 		gtp_y_reverse = FALSE;
++	} else if (val == 9112) {
++		m89or101 = FALSE;
++		bgt9112 = TRUE;
++		gtp_change_x2y = FALSE;
++		gtp_x_reverse = FALSE;
++		gtp_y_reverse = FALSE;
+ 	} else if (val == 970) {
+ 		m89or101 = FALSE;
+ 		bgt911 = FALSE;
+diff --git a/drivers/input/touchscreen/gt9xx/gt9xx_cfg.h b/drivers/input/touchscreen/gt9xx/gt9xx_cfg.h
+index 584da09e9025..418c4e447254 100644
+--- a/drivers/input/touchscreen/gt9xx/gt9xx_cfg.h
++++ b/drivers/input/touchscreen/gt9xx/gt9xx_cfg.h
+@@ -33,6 +33,11 @@ static u8 gtp_dat_gt9111[] = {
+ 	#include "HLS-0102-1398V1-1060-GT911_Config_20201204_V66.cfg"
+ };
+ 
++static u8 gtp_dat_gt9112[] = {
++	/* <800, 1280> */
++	#include "CJ080258_GT911_Config_20220425_085548.cfg"
++};
++
+ static u8 gtp_dat_8_9[] = {
+ 	/* TODO:Puts your update firmware data here! */
+ 	/* <1920, 1200> 8.9 */
+-- 
+2.43.0
+
