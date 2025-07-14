@@ -1,8 +1,7 @@
 name: Nightly Build
 run-name: Nightly build
 on:
-  schedule:
-    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
 
@@ -20,15 +19,15 @@ jobs:
         id: build
         run: |
             build_matrix=""
-            for file in config/boards/*; do
-                COMPATIBLE_SUITES=()
-                COMPATIBLE_FLAVORS=()
-                # shellcheck disable=SC1090
-                source "${file}"
-                for suite in "${COMPATIBLE_SUITES[@]}"; do
-                    for flavor in "${COMPATIBLE_FLAVORS[@]}"; do
+            
+            file="config/boards/mixtile-blade3.sh"
+            COMPATIBLE_SUITES=()
+            COMPATIBLE_FLAVORS=()
+            # shellcheck disable=SC1090
+            source "${file}"
+            for suite in "${COMPATIBLE_SUITES[@]}"; do
+                for flavor in "${COMPATIBLE_FLAVORS[@]}"; do
                     build_matrix+="{\"board\":\"$(basename "${file%.sh}")\",\"suite\":\"${suite}\",\"flavor\":\"${flavor}\"},"
-                    done
                 done
             done
             echo "build_matrix={\"include\":[${build_matrix::-1}]}" >> $GITHUB_OUTPUT
