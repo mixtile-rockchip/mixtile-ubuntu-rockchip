@@ -67,6 +67,7 @@ jobs:
         id: vars
         run: |
           source config/suites/${{ matrix.suite }}.sh
+          source config/boards/mixtile-blade3.sh
           echo "suite_version=$RELASE_VERSION" >> $GITHUB_OUTPUT
 
       - name: Install dependencies
