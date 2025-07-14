@@ -100,7 +100,7 @@ jobs:
 
       - name: Build
         shell: bash
-        run: sudo ./build.sh --suite=${{ matrix.suite }} --kernel-only
+        run: sudo ./build.sh --board=${{ matrix.board }} --suite=${{ matrix.suite }} --flavor=${{ matrix.flavor }} --kernel-only
 
       - name: Upload
         uses: actions/upload-artifact@v4.3.3
@@ -118,7 +118,6 @@ jobs:
       matrix:
         board:
           - mixtile-blade3
-          - mixtile-core3588e
         flavor:
           - desktop
           - server
