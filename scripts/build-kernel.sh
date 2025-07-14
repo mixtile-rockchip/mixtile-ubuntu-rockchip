@@ -22,7 +22,7 @@ source "../scripts/apply_patch.sh"
 
 # Clone the kernel repo
 if ! git -C linux-rockchip pull; then
-    git clone --progress -b "${KERNEL_BRANCH}" "${KERNEL_REPO}" linux-rockchip
+    git clone --progress -b "${KERNEL_BRANCH}" "${KERNEL_REPO}" linux-rockchip --depth=2
 fi
 
 cd linux-rockchip
