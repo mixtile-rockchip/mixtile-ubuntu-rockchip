@@ -84,7 +84,7 @@ jobs:
         shell: bash
         run: |
           source config/boards/mixtile-blade3.sh
-          sudo ./build.sh -E --board=${{ matrix.board }} --suite=${{ matrix.suite }} --flavor=${{ matrix.flavor }} --kernel-only
+          sudo -E ./build.sh --board=${{ matrix.board }} --suite=${{ matrix.suite }} --flavor=${{ matrix.flavor }} --kernel-only
 
       - name: Upload
         uses: actions/upload-artifact@v4.3.3
