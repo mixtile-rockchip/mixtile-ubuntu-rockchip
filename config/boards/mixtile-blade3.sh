@@ -88,11 +88,5 @@ ff02::2     ip6-allrouters" > /etc/hosts
 
 EOF
 
-    # Fix and configure audio device
-    mkdir -p "${rootfs}/usr/lib/scripts"
-    cp "${overlay}/usr/lib/scripts/alsa-audio-config" "${rootfs}/usr/lib/scripts/alsa-audio-config"
-    cp "${overlay}/usr/lib/systemd/system/alsa-audio-config.service" "${rootfs}/usr/lib/systemd/system/alsa-audio-config.service"
-    chroot "${rootfs}" systemctl enable alsa-audio-config
-
     return 0
 }
