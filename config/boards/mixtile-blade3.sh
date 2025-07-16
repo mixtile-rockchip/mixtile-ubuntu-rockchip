@@ -7,7 +7,7 @@ export BOARD_CPU="ARM Cortex A76 / A55"
 export KERNEL_PACKAGE="kernel-mixtile-rk3588-blade3"
 export UBOOT_PACKAGE="u-boot-mixtile-rk3588"
 export UBOOT_RULES_TARGET="mixtile-blade3-rk3588"
-export COMPATIBLE_SUITES=("jammy" "noble")
+export COMPATIBLE_SUITES=("jammy" "noble" "plucky")
 export COMPATIBLE_FLAVORS=("server" "desktop")
 
 function config_image_hook__mixtile-blade3() {
