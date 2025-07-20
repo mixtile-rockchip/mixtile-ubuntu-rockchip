@@ -1,0 +1,70 @@
+From 258f48fd5f04ad74299817ee5848db71a65584bc Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Wed, 7 Aug 2024 14:43:39 -0400
+Subject: [PATCH 68/74] arm64: dts: rockchip: Enable HDMI0 for Turing RK1
+
+Signed-off-by: Joshua Riek <jjriek@verizon.net>
+---
+ .../boot/dts/rockchip/rk3588-turing-rk1.dtsi  | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtsi
+index 5524d26d88a2..c672ba79c99c 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtsi
+@@ -11,6 +11,7 @@
+ /dts-v1/;
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/pinctrl/rockchip.h>
++#include <dt-bindings/soc/rockchip,vop2.h>
+ #include "rk3588.dtsi"
+ 
+ / {
+@@ -106,6 +107,25 @@ &gpu {
+ 	status = "okay";
+ };
+ 
++&display_subsystem {
++	clocks = <&hdptxphy_hdmi0>;
++	clock-names = "hdmi0_phy_pll";
++};
++
++&hdmi0 {
++	status = "okay";
++};
++
++&hdmi0_in {
++	hdmi0_in_vp0: endpoint {
++		remote-endpoint = <&vp0_out_hdmi0>;
++	};
++};
++
++&hdptxphy_hdmi0 {
++	status = "okay";
++};
++
+ &gmac1 {
+ 	clock_in_out = "output";
+ 	phy-handle = <&rgmii_phy>;
+@@ -620,3 +640,18 @@ &uart9 {
+ 	pinctrl-0 = <&uart9m0_xfer>;
+ 	status = "okay";
+ };
++
++&vop_mmu {
++	status = "okay";
++};
++
++&vop {
++	status = "okay";
++};
++
++&vp0 {
++	vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
++		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
++		remote-endpoint = <&hdmi0_in_vp0>;
++	};
++};
+-- 
+2.43.0
+

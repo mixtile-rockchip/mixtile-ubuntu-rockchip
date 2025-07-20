@@ -1,0 +1,26 @@
+From 30f7ceb4242a6c36c72789c1b77a15d2d7cd9c2a Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Sat, 3 Aug 2024 09:29:43 -0400
+Subject: [PATCH 335/364] UBUNTU: Enable the RK806 power management chip via
+ I2C
+
+---
+ debian.rockchip/config/config.common.ubuntu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index a7b6ad12e247..96ed1c1e2294 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -4470,7 +4470,7 @@ CONFIG_MFD_RDC321X=m
+ # CONFIG_MFD_RK630_I2C is not set
+ # CONFIG_MFD_RK630_SPI is not set
+ CONFIG_MFD_RK806=y
+-# CONFIG_MFD_RK806_I2C is not set
++CONFIG_MFD_RK806_I2C=y
+ CONFIG_MFD_RK806_SPI=y
+ CONFIG_MFD_RK808=y
+ # CONFIG_MFD_RK1000 is not set
+-- 
+2.43.0
+

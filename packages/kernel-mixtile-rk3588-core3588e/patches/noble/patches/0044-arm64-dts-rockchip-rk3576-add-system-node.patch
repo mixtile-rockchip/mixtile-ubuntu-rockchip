@@ -1,0 +1,27 @@
+From 46974c413a8601e884a867664c81d2fc148bc658 Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Sat, 29 Jun 2024 17:37:58 -0400
+Subject: [PATCH 307/364] arm64: dts: rockchip: rk3576: add system node
+
+---
+ arch/arm64/boot/dts/rockchip/rk3576.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+index 6647bb8a9479..2c39e44fd0d0 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
+@@ -22,6 +22,10 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+ 
++	system {
++		cpu,model = "Rockchip RK3576";
++	};
++
+ 	aliases {
+ 		csi2dcphy0 = &csi2_dcphy0;
+ 		csi2dphy0 = &csi2_dphy0;
+-- 
+2.43.0
+

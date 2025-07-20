@@ -1,0 +1,61 @@
+From 6b9165d8cfa2e03413669b606228405327f410df Mon Sep 17 00:00:00 2001
+From: Stephen Chen <stephen@radxa.com>
+Date: Tue, 11 Apr 2023 15:33:41 +0800
+Subject: [PATCH 305/364] ethernet: stmmac: disable rtl8211f eee
+
+This solves the problem of being recognized as 1000M mode
+when using a 1000M router and a 100M network cable,
+which prevents the device from getting an IP.
+
+Tested on ROCK 5A.
+
+Signed-off-by: Stephen Chen <stephen@radxa.com>
+(cherry picked from commit 383f42fd5d3d10d50e78017452a86e4086904269)
+Signed-off-by: Joshua Riek <jjriek@verizon.net>
+---
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 8ebfd61f32ca..a67718bca6cb 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -7130,6 +7130,22 @@ static int phy_rtl8211f_led_fixup(struct phy_device *phydev)
+ 	return 0;
+ }
+ 
++static int phy_rtl8211f_eee_fixup(struct phy_device *phydev)
++{
++	phy_write(phydev, 31, 0x0000);
++	phy_write(phydev,  0, 0x8000);
++	mdelay(20);
++	phy_write(phydev, 31, 0x0a4b);
++	phy_write(phydev, 17, 0x1110);
++	phy_write(phydev, 31, 0x0000);
++	phy_write(phydev, 13, 0x0007);
++	phy_write(phydev, 14, 0x003c);
++	phy_write(phydev, 13, 0x4007);
++	phy_write(phydev, 14, 0x0000);
++
++	return 0;
++}
++
+ /**
+  * stmmac_dvr_probe
+  * @device: device pointer
+@@ -7417,6 +7433,12 @@ int stmmac_dvr_probe(struct device *device,
+ 		dev_warn(priv->device, "Failed to register fixup for PHY RTL8211F.\n");
+ 	}
+ 
++	/* Register fixup for PHY RTL8211F disabling EEE */
++	ret = phy_register_fixup_for_uid(RTL8211F_PHY_ID, RTL8211F_PHY_ID_MASK, phy_rtl8211f_eee_fixup);
++	if (ret) {
++		dev_warn(priv->device, "Failed to register fixup for PHY RTL8211F disabling EEE.\n");
++	}
++
+ 	return ret;
+ 
+ error_netdev_register:
+-- 
+2.43.0
+

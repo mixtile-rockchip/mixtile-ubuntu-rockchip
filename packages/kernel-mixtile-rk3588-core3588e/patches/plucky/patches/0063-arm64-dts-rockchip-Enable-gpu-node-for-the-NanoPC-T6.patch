@@ -1,0 +1,28 @@
+From f04b3cbce5a851626ca6af59f7c8cedc160f32f2 Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Sun, 4 Aug 2024 18:05:32 -0400
+Subject: [PATCH 63/74] arm64: dts: rockchip: Enable gpu node for the NanoPC T6
+
+---
+ arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts
+index 5a645d20600d..cd2cbaf670b1 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dts
+@@ -970,6 +970,11 @@ &usb_host1_ohci {
+ 	status = "okay";
+ };
+ 
++&gpu {
++	mali-supply = <&vdd_gpu_s0>;
++	status = "okay";
++};
++
+ &hdptxphy_hdmi0 {
+ 	status = "okay";
+ };
+-- 
+2.43.0
+

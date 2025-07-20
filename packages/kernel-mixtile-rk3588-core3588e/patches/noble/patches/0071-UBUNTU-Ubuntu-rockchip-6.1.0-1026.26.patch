@@ -1,0 +1,46 @@
+From 5f6e8b6115e15b20c0686d18f0f2d770c1e51c5a Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Sun, 29 Sep 2024 09:55:38 -0400
+Subject: [PATCH 353/364] UBUNTU: Ubuntu-rockchip-6.1.0-1026.26
+
+---
+ debian.rockchip/abi/abiname |  2 +-
+ debian.rockchip/abi/version |  2 +-
+ debian.rockchip/changelog   | 10 ++++++++++
+ 3 files changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/debian.rockchip/abi/abiname b/debian.rockchip/abi/abiname
+index 7273c0fa8c52..6f4247a6255c 100644
+--- a/debian.rockchip/abi/abiname
++++ b/debian.rockchip/abi/abiname
+@@ -1 +1 @@
+-25
++26
+diff --git a/debian.rockchip/abi/version b/debian.rockchip/abi/version
+index d728797f19cb..54f3c0abfebd 100644
+--- a/debian.rockchip/abi/version
++++ b/debian.rockchip/abi/version
+@@ -1 +1 @@
+-6.1.0-1025.25
++6.1.0-1026.26
+diff --git a/debian.rockchip/changelog b/debian.rockchip/changelog
+index 20a5e0c4f22d..506a03a2a012 100644
+--- a/debian.rockchip/changelog
++++ b/debian.rockchip/changelog
+@@ -1,3 +1,13 @@
++linux-rockchip (6.1.0-1026.26) noble; urgency=medium
++
++  * arch: arm64: rockchip: use panfrost driver for gpu of rk3576
++  * Enabled DLM properly and not just the GFS2 filesystem support for it
++  * Added missing config line to properly enable DRBD
++  * Added DLM and DRBD kernel modules
++  * arm64: dts: rockchip: add armsom-cm5-io
++
++ -- Joshua Riek <jjriek@verizon.net>  Sun, 29 Sep 2024 09:53:46 -0400
++
+ linux-rockchip (6.1.0-1025.25) noble; urgency=medium
+ 
+   * Revert "Revert "PCI: rockchip: dw: remove .link_up() hook from struct dwpcie_ops""
+-- 
+2.43.0
+

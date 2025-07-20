@@ -1,0 +1,24 @@
+From d46768e582935ad6a9b184ed66e834a847a4ea04 Mon Sep 17 00:00:00 2001
+From: Henrik Johnson <spam@henrik.org>
+Date: Mon, 16 Sep 2024 16:53:28 -0700
+Subject: [PATCH 350/364] Added missing config line to properly enable DRBD
+
+---
+ debian.rockchip/config/config.common.ubuntu | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index 3087f0dd2152..f8c061726a00 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -2157,6 +2157,7 @@ CONFIG_ZRAM_DEF_COMP="lzo-rle"
+ CONFIG_BLK_DEV_LOOP=y
+ CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
+ CONFIG_BLK_DEV_DRBD=m
++CONFIG_DRBD_FAULT_INJECTION=n
+ CONFIG_BLK_DEV_NBD=m
+ CONFIG_BLK_DEV_RAM=y
+ CONFIG_BLK_DEV_RAM_COUNT=1
+-- 
+2.43.0
+

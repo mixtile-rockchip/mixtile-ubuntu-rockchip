@@ -1,0 +1,46 @@
+From 2d964abd4910e055672d9c9078e22bb46eb6dacf Mon Sep 17 00:00:00 2001
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date: Fri, 12 Apr 2024 20:33:32 +0300
+Subject: [PATCH 354/364] can: mcp251x: Fix up includes
+
+This driver is including the legacy GPIO header <linux/gpio.h>
+but the only thing it is using from that header is the wrong
+define for GPIOF_DIR_OUT.
+
+Fix it up by using GPIO_LINE_DIRECTION_* macros respectively.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Link: https://lore.kernel.org/all/20240412173332.186685-1-andriy.shevchenko@linux.intel.com
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+ drivers/net/can/spi/mcp251x.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/can/spi/mcp251x.c b/drivers/net/can/spi/mcp251x.c
+index 79c4bab5f724..643974b3f329 100644
+--- a/drivers/net/can/spi/mcp251x.c
++++ b/drivers/net/can/spi/mcp251x.c
+@@ -28,7 +28,6 @@
+ #include <linux/device.h>
+ #include <linux/ethtool.h>
+ #include <linux/freezer.h>
+-#include <linux/gpio.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+@@ -482,9 +481,9 @@ static int mcp251x_gpio_get_direction(struct gpio_chip *chip,
+ 				      unsigned int offset)
+ {
+ 	if (mcp251x_gpio_is_input(offset))
+-		return GPIOF_DIR_IN;
++		return GPIO_LINE_DIRECTION_IN;
+ 
+-	return GPIOF_DIR_OUT;
++	return GPIO_LINE_DIRECTION_OUT;
+ }
+ 
+ static int mcp251x_gpio_get(struct gpio_chip *chip, unsigned int offset)
+-- 
+2.43.0
+

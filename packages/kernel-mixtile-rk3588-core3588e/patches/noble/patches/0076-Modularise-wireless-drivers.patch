@@ -1,0 +1,49 @@
+From 6dbfeeb6a6119b6ea02dfce39f1bb12cb272b9ce Mon Sep 17 00:00:00 2001
+From: boogie <boogiepop@gmx.com>
+Date: Mon, 21 Oct 2024 23:37:37 +0200
+Subject: [PATCH 360/364] Modularise wireless drivers
+
+Intel's backport drivers also compile mac80211.ko and cfg80211.ko. If
+they are part of the vmlinux, this causes symbol re-export and causes
+not compile, even compiled with hack, they wont run during execution due
+to security.
+
+When they are as modules, dkms modules can override them without issues.
+---
+ debian.rockchip/config/config.common.ubuntu | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index e84410c88929..fa1f3433e0af 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -1729,7 +1729,7 @@ CONFIG_WEXT_CORE=y
+ CONFIG_WEXT_PROC=y
+ CONFIG_WEXT_SPY=y
+ CONFIG_WEXT_PRIV=y
+-CONFIG_CFG80211=y
++CONFIG_CFG80211=m
+ CONFIG_NL80211_TESTMODE=y
+ # CONFIG_CFG80211_DEVELOPER_WARNINGS is not set
+ # CONFIG_CFG80211_CERTIFICATION_ONUS is not set
+@@ -1745,7 +1745,7 @@ CONFIG_LIB80211_CRYPT_WEP=m
+ CONFIG_LIB80211_CRYPT_CCMP=m
+ CONFIG_LIB80211_CRYPT_TKIP=m
+ # CONFIG_LIB80211_DEBUG is not set
+-CONFIG_MAC80211=y
++CONFIG_MAC80211=m
+ CONFIG_MAC80211_HAS_RC=y
+ CONFIG_MAC80211_RC_MINSTREL=y
+ CONFIG_MAC80211_RC_DEFAULT_MINSTREL=y
+@@ -3123,7 +3123,7 @@ CONFIG_RTW89_8852BE=m
+ CONFIG_RTW89_8852CE=m
+ # CONFIG_RTW89_DEBUGMSG is not set
+ # CONFIG_RTW89_DEBUGFS is not set
+-CONFIG_WL_ROCKCHIP=y
++CONFIG_WL_ROCKCHIP=m
+ CONFIG_WIFI_BUILD_MODULE=y
+ # CONFIG_WIFI_LOAD_DRIVER_WHEN_KERNEL_BOOTUP is not set
+ # CONFIG_WIFI_GENERATE_RANDOM_MAC_ADDR is not set
+-- 
+2.43.0
+

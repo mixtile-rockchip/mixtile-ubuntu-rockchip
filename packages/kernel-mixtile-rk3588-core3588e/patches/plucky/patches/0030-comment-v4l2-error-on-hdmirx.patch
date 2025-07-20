@@ -1,0 +1,25 @@
+From 238d134f82717b8efdbcc3826e2d3b5d78378fc3 Mon Sep 17 00:00:00 2001
+From: Muhammed Efe Cetin <efectn@protonmail.com>
+Date: Thu, 1 Aug 2024 16:47:35 +0300
+Subject: [PATCH 30/74] comment v4l2 error on hdmirx
+
+---
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+index 1dfecf256393..f69d1bda4c30 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+@@ -1180,7 +1180,7 @@ static int hdmirx_wait_lock_and_get_timing(struct snps_hdmirx_dev *hdmirx_dev)
+ 			break;
+ 
+ 		if (!tx_5v_power_present(hdmirx_dev)) {
+-			v4l2_err(v4l2_dev, "%s: HDMI pull out, return\n", __func__);
++			//v4l2_err(v4l2_dev, "%s: HDMI pull out, return\n", __func__);
+ 			return -1;
+ 		}
+ 
+-- 
+2.43.0
+

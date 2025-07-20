@@ -1,0 +1,881 @@
+From 375956b48579a046bdcc325fc8c19dc685005ffa Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Mon, 16 Sep 2024 09:53:09 -0400
+Subject: [PATCH 74/74] UBUNTU: Ubuntu-rockchip-6.11.0-1006.6
+
+---
+ debian.rockchip/abi/abiname |   2 +-
+ debian.rockchip/abi/version |   2 +-
+ debian.rockchip/changelog   | 845 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 847 insertions(+), 2 deletions(-)
+
+diff --git a/debian.rockchip/abi/abiname b/debian.rockchip/abi/abiname
+index 7ed6ff82de6b..1e8b31496214 100644
+--- a/debian.rockchip/abi/abiname
++++ b/debian.rockchip/abi/abiname
+@@ -1 +1 @@
+-5
++6
+diff --git a/debian.rockchip/abi/version b/debian.rockchip/abi/version
+index 8d35ee44491d..4bfd726a63cb 100644
+--- a/debian.rockchip/abi/version
++++ b/debian.rockchip/abi/version
+@@ -1 +1 @@
+-6.11.0-1005.5
++6.11.0-1006.6
+diff --git a/debian.rockchip/changelog b/debian.rockchip/changelog
+index 85e7e854f8fe..db6384617d04 100644
+--- a/debian.rockchip/changelog
++++ b/debian.rockchip/changelog
+@@ -1,3 +1,848 @@
++linux-rockchip (6.11.0-1006.6) oracular; urgency=medium
++
++  * Linux 6.11
++  * Merge tag 'for-linus-6.11' of git://git.kernel.org/pub/scm/virt/kvm/kvm
++  * Revert "KVM: VMX: Always honor guest PAT on CPUs that support self-snoop"
++  * Merge tag 'pinctrl-v6.11-4' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
++  * Merge tag 'sound-6.11' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
++  * Merge tag '6.11-rc7-SMB3-client-fix' of git://git.samba.org/sfrench/cifs-2.6
++  * Merge tag 'asoc-fix-v6.11-rc7' of https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for-linus
++  * Merge tag 'pci-v6.11-fixes-4' of git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci
++  * Merge tag 'spi-fix-v6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi
++  * Merge tag 'soundwire-6.11-fixes_2' of git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/soundwire
++  * Merge tag 'drm-fixes-2024-09-13' of https://gitlab.freedesktop.org/drm/kernel
++  * pinctrl: pinctrl-cy8c95x0: Fix regcache
++  * Merge tag 'intel-pinctrl-v6.11-1' of git://git.kernel.org/pub/scm/linux/kernel/git/pinctrl/intel into fixes
++  * Merge tag 'drm-xe-fixes-2024-09-12' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
++  * Merge tag 'drm-misc-fixes-2024-09-12' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
++  * Merge tag 'drm-intel-fixes-2024-09-12' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
++  * Merge tag 'amd-drm-fixes-6.11-2024-09-11' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
++  * cifs: Fix signature miscalculation
++  * Merge tag 'clk-fixes-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux
++  * Merge tag 'block-6.11-20240912' of git://git.kernel.dk/linux
++  * Merge tag 'hwmon-for-v6.11-rc8' of git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging
++  * Merge tag 'wq-for-6.11-rc7-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq
++  * Merge tag 'riscv-for-linus-6.11-rc8' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux
++  * Merge tag 'net-6.11-rc8' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
++  * Merge tag 'platform-drivers-x86-v6.11-7' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86
++  * mm: avoid leaving partial pfn mappings around in error case
++  * drm/xe/client: add missing bo locking in show_meminfo()
++  * drm/xe/client: fix deadlock in show_meminfo()
++  * drm/xe/oa: Enable Xe2+ PES disaggregation
++  * drm/xe/display: fix compat IS_DISPLAY_STEP() range end
++  * drm/xe: Fix access_ok check in user_fence_create
++  * drm/xe: Fix possible UAF in guc_exec_queue_process_msg
++  * drm/xe: Remove fence check from send_tlb_invalidation
++  * drm/xe/gt: Remove double include
++  * net: netfilter: move nf flowtable bpf initialization in nf_flow_table_module_init()
++  * Merge tag 'nf-24-09-12' of git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf
++  * PCI: Fix potential deadlock in pcim_intx()
++  * workqueue: Clear worker->pool in the worker thread context
++  * net: tighten bad gso csum offset check in virtio_net_hdr
++  * netlink: specs: mptcp: fix port endianness
++  * net: dpaa: Pad packets to ETH_ZLEN
++  * mptcp: pm: Fix uaf in __timer_delete_sync
++  * net: libwx: fix number of Rx and Tx descriptors
++  * net: dsa: felix: ignore pending status of TAS module when it's disabled
++  * net: hsr: prevent NULL pointer dereference in hsr_proxy_announce()
++  * Merge branch 'selftests-mptcp-misc-small-fixes'
++  * selftests: mptcp: include net_helper.sh file
++  * selftests: mptcp: include lib.sh file
++  * selftests: mptcp: join: restrict fullmesh endp on 1st sf
++  * netfilter: nft_socket: make cgroupsv2 matching work with namespaces
++  * netfilter: nft_socket: fix sk refcount leaks
++  * spi: nxp-fspi: fix the KASAN report out-of-bounds bug
++  * Merge tag 'arm-fixes-6.11-3' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
++  * Merge tag 'for-6.11/dm-fixes-2' of git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm
++  * Merge tag 'printk-for-6.11-fixup' of git://git.kernel.org/pub/scm/linux/kernel/git/printk/linux
++  * minmax: reduce min/max macro expansion in atomisp driver
++  * ASoC: meson: axg-card: fix 'use-after-free'
++  * drm/amd/display: Add all planes on CRTC to state for overlay cursor
++  * ASoC: codecs: avoid possible garbage value in peb2466_reg_read()
++  * Merge tag 'riscv-soc-fixes-for-v6.11-final' of https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux into arm/fixes
++  * platform: cznic: turris-omnia-mcu: fix HW_RANDOM dependency
++  * soundwire: stream: Revert "soundwire: stream: fix programming slave ports for non-continous port maps"
++  * Merge branch 'for-6.11-fixup' into for-linus
++  * riscv: Disable preemption while handling PR_RISCV_CTX_SW_FENCEI_OFF
++  * drivers: perf: Fix smp_processor_id() use in preemptible code
++  * Merge branch '100GbE' of git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue
++  * Merge tag 'mlx5-fixes-2024-09-09' of git://git.kernel.org/pub/scm/linux/kernel/git/saeed/linux
++  * MAINTAINERS: Add ethtool pse-pd to PSE NETWORK DRIVER
++  * dt-bindings: net: tja11xx: fix the broken binding
++  * selftests: net: csum: Fix checksums for packets with non-zero padding
++  * net: phy: dp83822: Fix NULL pointer dereference on DP83825 devices
++  * drm/amdgpu/atomfirmware: Silence UBSAN warning
++  * drm/amd/amdgpu: apply command submission parser for JPEG v1
++  * drm/amd/amdgpu: apply command submission parser for JPEG v2+
++  * drm/amd/pm: fix the pp_dpm_pcie issue on smu v14.0.2/3
++  * drm/amd/pm: update the features set on smu v14.0.2/3
++  * drm/amd/display: Do not reset planes based on crtc zpos_changed
++  * drm/amd/display: Avoid race between dcn35_set_drr() and dc_state_destruct()
++  * drm/amd/display: Avoid race between dcn10_set_drr() and dc_state_destruct()
++  * drm/amdkfd: Add cache line size info
++  * block: Prevent deadlocks when switching elevators
++  * drm/tegra: Use iommu_paging_domain_alloc()
++  * drm/rockchip: Use iommu_paging_domain_alloc()
++  * Merge tag 'trace-v6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
++  * Merge branch 'revert-virtio_net-rx-enable-premapped-mode-by-default'
++  * virtio_net: disable premapped mode by default
++  * Revert "virtio_net: big mode skip the unmap check"
++  * Revert "virtio_net: rx remove premapped failover code"
++  * drm/syncobj: Fix syncobj leak in drm_syncobj_eventfd_ioctl
++  * MAINTAINERS: update Pierre Bossart's email and role
++  * platform/x86: asus-wmi: Disable OOBE experience on Zenbook S 16
++  * drm/stm: add COMMON_CLK dependency
++  * net: ftgmac100: Enable TX interrupt to avoid TX timeout
++  * drm/nouveau/fb: restore init() for ramgp102
++  * octeontx2-af: Modify SMQ flush sequence to drop packets
++  * drm/i915/guc: prevent a possible int overflow in wq offsets
++  * fou: fix initialization of grc
++  * clk: qcom: clk-alpha-pll: Simplify the zonda_pll_adjust_l_val()
++  * tracing: Drop unused helper function to fix the build
++  * tracing/osnoise: Fix build when timerlat is not enabled
++  * net/mlx5: Fix bridge mode operations when there are no VFs
++  * net/mlx5: Verify support for scheduling element and TSAR type
++  * net/mlx5: Add missing masks and QoS bit masks for scheduling elements
++  * net/mlx5: Explicitly set scheduling element and TSAR type
++  * net/mlx5e: Add missing link mode to ptys2ext_ethtool_map
++  * net/mlx5e: Add missing link modes to ptys2ethtool_map
++  * net/mlx5: Update the list of the PCI supported devices
++  * igb: Always call igb_xdp_ring_update_tail() under Tx lock
++  * ice: fix VSI lists confusion when adding VLANs
++  * ice: stop calling pci_disable_device() as we use pcim
++  * ice: fix accounting for filters shared by multiple VSIs
++  * ice: Fix lldp packets dropping after changing the number of channels
++  * hwmon: (pmbus) Conditionally clear individual status bits for pmbus rev >= 1.2
++  * platform/x86: panasonic-laptop: Allocate 1 entry extra in the sinf array
++  * platform/x86: panasonic-laptop: Fix SINF array out of bounds accesses
++  * Merge tag 'bcachefs-2024-09-09' of git://evilpiepirate.org/bcachefs
++  * Merge tag 'hyperv-fixes-signed-20240908' of git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux
++  * printk: Export match_devname_and_update_preferred_console()
++  * bcachefs: Don't delete open files in online fsck
++  * bcachefs: fix btree_key_cache sysfs knob
++  * bcachefs: More BCH_SB_MEMBER_INVALID support
++  * bcachefs: Simplify bch2_bkey_drop_ptrs()
++  * bcachefs: Add a cond_resched() to __journal_keys_sort()
++  * bcachefs: Fix ca->io_ref usage
++  * spi: geni-qcom: Fix incorrect free_irq() sequence
++  * spi: geni-qcom: Undo runtime PM changes at driver exit time
++  * ASoC: tas2781: fix to save the dsp bin file name into the correct array in case name_prefix is not NULL
++  * dma-buf: heaps: Fix off-by-one in CMA heap fault handler
++  * net: hsr: remove seqnr_lock
++  * riscv: dts: starfive: jh7110-common: Fix lower rate of CPUfreq by setting PLL0 rate to 1.5GHz
++  * Linux 6.11-rc7
++  * Merge tag 'timers_urgent_for_v6.11_rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
++  * Merge tag 'perf_urgent_for_v6.11_rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
++  * Merge tag 'char-misc-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc
++  * Merge tag 'usb-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
++  * Merge tag 'clk-fixes-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux
++  * Merge tag 'scsi-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi
++  * Merge tag 'pinctrl-v6.11-3' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
++  * Merge tag 'linux_kselftest-kunit-fixes-6.11-rc7-2' of git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest
++  * Merge tag 'pci-v6.11-fixes-3' of git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci
++  * Merge tag 'v6.11-rc6-cifs-client-fixes' of git://git.samba.org/sfrench/cifs-2.6
++  * KVM: x86: don't fall through case statements without annotations
++  * Merge tag 'arm64-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux
++  * Merge tag 'riscv-for-linus-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux
++  * Merge tag 'powerpc-6.11-3' of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
++  * Merge tag 'for-linus' of git://git.kernel.org/pub/scm/virt/kvm/kvm
++  * Merge tag 'pm-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
++  * Merge tag 'block-6.11-20240906' of git://git.kernel.dk/linux
++  * Merge tag 'sound-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
++  * Merge tag 'mmc-v6.11-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc
++  * Merge tag 'gpio-fixes-for-v6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux
++  * Merge tag 'pmdomain-v6.11-rc2-2' of git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm
++  * Merge tag 'pwm/for-6.11-rc7-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux
++  * Merge tag 'drm-fixes-2024-09-06' of https://gitlab.freedesktop.org/drm/kernel
++  * libfs: fix get_stashed_dentry()
++  * ASoC: Intel: soc-acpi-intel-mtl-match: add missing empty item
++  * ASoC: Intel: soc-acpi-intel-lnl-match: add missing empty item
++  * dm-integrity: fix a race condition when accessing recalc_sector
++  * Merge tag 'asoc-fix-v6.11-rc6' of https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for-linus
++  * Merge tag 'bpf-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf
++  * Merge tag 'amd-drm-fixes-6.11-2024-09-05' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
++  * Merge tag 'drm-misc-fixes-2024-09-05' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
++  * Merge tag 'drm-xe-fixes-2024-09-05' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
++  * Merge tag 'net-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
++  * Merge tag 'spi-fix-v6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi
++  * Merge tag 'drm-intel-fixes-2024-09-05' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
++  * Merge tag 'regulator-fix-v6.11-stub' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator
++  * Merge tag 'rust-fixes-6.11-2' of https://github.com/Rust-for-Linux/linux
++  * Merge tag 'trace-v6.11-rc4' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
++  * ila: call nf_unregister_net_hooks() sooner
++  * tools/net/ynl: fix cli.py --subscribe feature
++  * MAINTAINERS: fix ptp ocp driver maintainers address
++  * selftests: net: enable bind tests
++  * kunit: Fix missing kerneldoc comment
++  * Revert "drm/amdgpu: align pp_power_profile_mode with kernel docs"
++  * MAINTAINERS: SPI: Add mailing list imx@lists.linux.dev for nxp spi drivers
++  * MAINTAINERS: SPI: Add freescale lpspi maintainer information
++  * Merge tag 'platform-drivers-x86-v6.11-6' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86
++  * Merge tag 'linux_kselftest-kunit-fixes-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest
++  * KVM: Remove HIGH_RES_TIMERS dependency
++  * tracing/timerlat: Add interface_lock around clearing of kthread in stop_kthread()
++  * tracing/timerlat: Only clear timer if a kthread exists
++  * tracing/osnoise: Use a cpumask to know what threads are kthreads
++  * hv: vmbus: Constify struct kobj_type and struct attribute_group
++  * Merge tag 'nvme-6.11-2024-09-05' of git://git.infradead.org/nvme into block-6.11
++  * ALSA: hda/realtek - Fix inactive headset mic jack for ASUS Vivobook 15 X1504VAP
++  * eventfs: Use list_del_rcu() for SRCU protected list variable
++  * tracing: Avoid possible softlockup in tracing_iter_reset()
++  * arm64: stacktrace: fix the usage of ftrace_graph_ret_addr()
++  * spi: spi-fsl-lpspi: Fix off-by-one in prescale max
++  * Merge tag 'amd-pstate-v6.11-2024-09-04' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/superm1/linux
++  * net: dsa: vsc73xx: fix possible subblocks range of CAPT block
++  * sched: sch_cake: fix bulk flow accounting logic for host fairness
++  * Merge tag 'v6.11-rockchip-dtsfixes' of https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip into arm/fixes
++  * Merge tag 'qcom-drivers-fixes-for-6.11-2' of https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux into arm/fixes
++  * pwm: stm32: Use the right CCxNP bit in stm32_pwm_enable()
++  * drm/fbdev-dma: Only install deferred I/O if necessary
++  * docs: netdev: document guidance on cleanup.h
++  * drm/panthor: flush FW AS caches in slow reset path
++  * drm: panel: nv3052c: Correct WL-355608-A8 panel compatible
++  * dt-bindings: display: panel: Rename WL-355608-A8 panel to rg35xx-*-panel
++  * drm/panthor: Restrict high priorities on group_create
++  * tools: hv: rm .*.cmd when make clean
++  * x86/hyperv: fix kexec crash due to VP assist page corruption
++  * Merge branch '100GbE' of git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue
++  * Merge tag 'wireless-2024-09-04' of git://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless
++  * net: xilinx: axienet: Fix race in axienet_stop
++  * net: bridge: br_fdb_external_learn_add(): always set EXT_LEARN
++  * r8152: fix the firmware doesn't work
++  * fou: Fix null-ptr-deref in GRO.
++  * bareudp: Fix device stats updates.
++  * Merge tag 'bcachefs-2024-09-04' of git://evilpiepirate.org/bcachefs
++  * Merge branch 'bpf-fix-incorrect-name-check-pass-logic-in-btf_name_valid_section'
++  * selftests/bpf: Add a selftest to check for incorrect names
++  * Merge tag 'perf-tools-fixes-for-v6.11-2024-09-04' of git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools
++  * Merge tag 'hwmon-for-v6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging
++  * bpf: add check for invalid name in btf_name_valid_section()
++  * Merge tag 'for-6.11-rc6-tag' of git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux
++  * Merge tag 'v6.11-rc6-server-fixes' of git://git.samba.org/ksmbd
++  * Merge tag 'vfs-6.11-rc7.fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs
++  * drm/xe/display: Avoid encoder_suspend at runtime suspend
++  * drm/xe: Suspend/resume user access only during system s/r
++  * drm/xe/display: Match i915 driver suspend/resume sequences better
++  * perf/aux: Fix AUX buffer serialization
++  * Merge tag 'for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux
++  * drm/xe: Add missing runtime reference to wedged upon gt_reset
++  * Merge tag 'parisc-for-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux
++  * Merge tag 'mm-hotfixes-stable-2024-09-03-20-19' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
++  * kvm: Note an RCU quiescent state on guest exit
++  * ARM: 9414/1: Fix build issue with LD_DEAD_CODE_DATA_ELIMINATION
++  * bio-integrity: don't restrict the size of integrity metadata
++  * ublk_drv: fix NULL pointer dereference in ublk_ctrl_start_recovery()
++  * ALSA: hda/realtek: Support mute LED on HP Laptop 14-dq2xxx
++  * ALSA: hda/realtek: Enable Mute Led for HP Victus 15-fb1xxx
++  * net: mana: Fix error handling in mana_create_txq/rxq's NAPI cleanup
++  * bcachefs: BCH_SB_MEMBER_INVALID
++  * PCI/pwrctl: Rescan bus on a separate thread
++  * PCI: Don't rely on of_platform_depopulate() for reused OF-nodes
++  * MAINTAINERS: update Andreas Hindborg's email address
++  * clk: qcom: gcc-sc8280xp: don't use parking clk_ops for QUPs
++  * Merge tag 'fuse-fixes-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse
++  * bpf, net: Fix a potential race in do_sock_getsockopt()
++  * net: dqs: Do not use extern for unused dql_group
++  * sch/netem: fix use after free in netem_dequeue
++  * usbnet: modern method to get random MAC
++  * MAINTAINERS: wifi: cw1200: add net-cw1200.h
++  * btrfs: fix race between direct IO write and fsync when using same fd
++  * usb: typec: ucsi: Fix cable registration
++  * nvmet: Identify-Active Namespace ID List command should reject invalid nsid
++  * nvme: set BLK_FEAT_ZONED for ZNS multipath disks
++  * Merge tag 'ath-current-20240903' of git://git.kernel.org/pub/scm/linux/kernel/git/ath/ath
++  * ice: do not bring the VSI up, if it was down before the XDP setup
++  * ALSA: hda/realtek: extend quirks for Clevo V5[46]0
++  * ice: remove ICE_CFG_BUSY locking from AF_XDP code
++  * ice: check ICE_VSI_DOWN under rtnl_lock when preparing for reset
++  * ice: check for XDP rings instead of bpf program when unconfiguring
++  * ice: protect XDP configuration with a mutex
++  * ice: move netif_queue_set_napi to rtnl-protected sections
++  * netfs, cifs: Improve some debugging bits
++  * cifs: Fix SMB1 readv/writev callback in the same way as SMB2/3
++  * cifs: Fix zero_point init on inode initialisation
++  * smb: client: fix double put of @cfile in smb2_set_path_size()
++  * riscv: Fix RISCV_ALTERNATIVE_EARLY
++  * riscv: Do not restrict memory size because of linear mapping on nommu
++  * riscv: Fix toolchain vector detection
++  * uprobes: Use kzalloc to allocate xol area
++  * smb: client: fix double put of @cfile in smb2_rename_path()
++  * drm/xe/pcode: Treat pcode as per-tile rather than per-GT
++  * drm/xe/gsc: Do not attempt to load the GSC multiple times
++  * platform/x86/amd: pmf: Make ASUS GA403 quirk generic
++  * Merge branch 'ptp-ocp-fix-serial-port-information-export'
++  * docs: ABI: update OCP TimeCard sysfs entries
++  * ptp: ocp: adjust sysfs entries to expose tty information
++  * ptp: ocp: convert serial ports to array
++  * spi: spidev: Add missing spi_device_id for jg10309-01
++  * mmc: cqhci: Fix checking of CQHCI_HALT state
++  * VMCI: Fix use-after-free when removing resource in vmci_resource_remove()
++  * parisc: Delay write-protection until mark_rodata_ro() call
++  * net: phy: Fix missing of_node_put() for leds
++  * Drivers: hv: vmbus: Fix rescind handling in uio_hv_generic
++  * uio_hv_generic: Fix kernel NULL pointer dereference in hv_uio_rescind
++  * misc: keba: Fix sysfs group creation
++  * dt-bindings: nvmem: Use soc-nvmem node name instead of nvmem
++  * nvmem: Fix return type of devm_nvmem_device_get() in kerneldoc
++  * nvmem: u-boot-env: error if NVMEM device is too small
++  * misc: fastrpc: Fix double free of 'buf' in error path
++  * binder: fix UAF caused by offsets overwrite
++  * Merge tag 'iio-fixes-for-6.11a' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/jic23/iio into char-misc-linus
++  * Merge branch 'net-ethernet-ti-am65-cpsw-fix-xdp-implementation'
++  * net: ethernet: ti: am65-cpsw: Fix RX statistics for XDP_TX and XDP_REDIRECT
++  * net: ethernet: ti: am65-cpsw: Fix NULL dereference on XDP_TX
++  * net: ethernet: ti: am65-cpsw: fix XDP_DROP, XDP_TX and XDP_REDIRECT
++  * drm/bridge-connector: reset the HDMI connector state
++  * drm/bridge-connector: move to DRM_DISPLAY_HELPER module
++  * drm/display: stop depending on DRM_DISPLAY_HELPER
++  * usb: typec: ucsi: Fix the partner PD revision
++  * usb: cdns2: Fix controller reset issue
++  * usb: dwc3: core: update LC timer as per USB Spec V3.2
++  * usb: dwc3: Avoid waking up gadget during startxfer
++  * drm/i915/display: Increase Fast Wake Sync length as a quirk
++  * drm/i915/display: Add mechanism to use sink model when applying quirk
++  * Merge tag 'for-net-2024-08-30' of git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth
++  * Merge tag 'linux-can-fixes-for-6.11-20240830' of git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can
++  * smb: client: fix hang in wait_for_response() for negproto
++  * btrfs: zoned: handle broken write pointer on zones
++  * perf daemon: Fix the build on more 32-bit architectures
++  * perf python: include "util/sample.h"
++  * perf lock contention: Fix spinlock and rwlock accounting
++  * perf test pmu: Set uninitialized PMU alias to null
++  * btrfs: qgroup: don't use extent changeset when not needed
++  * drm/amd/display: Block timing sync for different signals in PMO
++  * drm/amd/display: Lock DC and exit IPS when changing backlight
++  * drm/amdgpu: always allocate cleared VRAM for GEM allocations
++  * drm/amdgpu/mes: add mes mapping legacy queue switch
++  * drm/amd/display: Determine IPS mode by ASIC and PMFW versions
++  * Revert "wifi: ath11k: support hibernation"
++  * Revert "wifi: ath11k: restore country code during resume"
++  * KVM: x86: Only advertise KVM_CAP_READONLY_MEM when supported by VM
++  * Merge tag 'kvm-x86-fixes-6.11-rcN' of https://github.com/kvm-x86/linux into kvm-master
++  * hwmon: (hp-wmi-sensors) Check if WMI event data exists
++  * gpio: modepin: Enable module autoloading
++  * igc: Unlock on error in igc_io_resume()
++  * gpio: rockchip: fix OF node leak in probe()
++  * spi: bcm63xx: Enable module autoloading
++  * drm/i915/fence: Mark debug_fence_free() with __maybe_unused
++  * drm/i915/fence: Mark debug_fence_init_onstack() with __maybe_unused
++  * drm/i915: Fix readout degamma_lut mismatch on ilk/snb
++  * drm/i915: Do not attempt to load the GSC multiple times
++  * Merge tag 'timers-v6.11-rc7' of https://git.linaro.org/people/daniel.lezcano/linux into timers/urgent
++  * net: microchip: vcap: Fix use-after-free error in kunit test
++  * MAINTAINERS: Remove Wedson as Rust maintainer
++  * pinctrl: qcom: x1e80100: Bypass PDC wakeup parent for now
++  * drm/imagination: Free pvr_vm_gpuva after unlink
++  * clocksource/drivers/imx-tpm: Fix next event not taking effect sometime
++  * clocksource/drivers/imx-tpm: Fix return -ETIME when delta exceeds INT_MAX
++  * clocksource/drivers/timer-of: Remove percpu irq related code
++  * rust: macros: provide correct provenance when constructing THIS_MODULE
++  * Merge tag 'ata-6.11-rc7' of git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux
++  * alloc_tag: fix allocation tag reporting when CONFIG_MODULES=n
++  * mm: vmalloc: optimize vmap_lazy_nr arithmetic when purging each vmap_area
++  * mailmap: update entry for Jan Kuliga
++  * codetag: debug: mark codetags for poisoned page as empty
++  * mm/memcontrol: respect zswap.writeback setting from parent cg too
++  * scripts: fix gfp-translate after ___GFP_*_BITS conversion to an enum
++  * Revert "mm: skip CMA pages when they are not available"
++  * maple_tree: remove rcu_read_lock() from mt_validate()
++  * kexec_file: fix elfcorehdr digest exclusion when CONFIG_CRASH_HOTPLUG=y
++  * mm/slub: add check for s->flags in the alloc_tagging_slab_free_hook
++  * nilfs2: fix state management in error path of log writing function
++  * nilfs2: fix missing cleanup on rollforward recovery error
++  * nilfs2: protect references to superblock parameters exposed in sysfs
++  * userfaultfd: don't BUG_ON() if khugepaged yanks our page table
++  * userfaultfd: fix checks for huge PMDs
++  * mm: vmalloc: ensure vmap_block is initialised before adding to queue
++  * selftests: mm: fix build errors on armhf
++  * Merge tag 'x86-urgent-2024-09-01' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
++  * Merge tag 'perf-urgent-2024-09-01' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
++  * Merge tag 'locking-urgent-2024-08-25' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
++  * Merge tag 'irq-urgent-2024-08-25' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
++  * bcachefs: fix rebalance accounting
++  * Merge branch 'mctp-serial-tx-escapes'
++  * net: mctp-serial: Fix missing escapes on transmit
++  * net: mctp-serial: Add kunit test for next_chunk_len()
++  * hwmon: ltc2991: fix register bits defines
++  * fscache: delete fscache_cookie_lru_timer when fscache exits to avoid UAF
++  * Linux 6.11-rc6
++  * Merge tag 'v6.11-rc5-smb-client-fixes' of git://git.samba.org/sfrench/cifs-2.6
++  * Merge tag 'bcachefs-2024-08-21' of https://github.com/koverstreet/bcachefs
++  * riscv: misaligned: Restrict user access to kernel memory
++  * bcachefs: Mark more errors as autofix
++  * bcachefs: Revert lockless buffered IO path
++  * Merge branch 'fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging
++  * Merge tag 'pwrseq-fixes-for-v6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux
++  * power: sequencing: qcom-wcn: set the wlan-enable GPIO to output
++  * Merge tag 'usb-6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
++  * Merge tag 'scsi-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi
++  * Merge tag 'nfsd-6.11-3' of git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
++  * Merge tag 'xfs-6.11-fixes-4' of git://git.kernel.org/pub/scm/fs/xfs/xfs-linux
++  * Merge tag 'arm-fixes-6.11-2' of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
++  * Merge tag 'input-for-v6.11-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input
++  * firmware: qcom: uefisecapp: Fix deadlock in qcuefi_acquire()
++  * Merge tag 'pci-v6.11-fixes-2' of git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci
++  * Merge tag 'block-6.11-20240830' of git://git.kernel.dk/linux
++  * Merge tag 'io_uring-6.11-20240830' of git://git.kernel.dk/linux
++  * nouveau: fix the fwsec sb verification register.
++  * Bluetooth: MGMT: Ignore keys being loaded with invalid type
++  * Revert "Bluetooth: MGMT/SMP: Fix address type when using SMP over BREDR/LE"
++  * Bluetooth: MGMT: Fix not generating command complete for MGMT_OP_DISCONNECT
++  * Bluetooth: hci_sync: Introduce hci_cmd_sync_run/hci_cmd_sync_run_once
++  * Bluetooth: qca: If memdump doesn't work, re-enable IBS
++  * can: kvaser_pciefd: Use a single write when releasing RX buffers
++  * Merge tag 'at91-fixes-6.11' of https://git.kernel.org/pub/scm/linux/kernel/git/at91/linux into arm/fixes
++  * Merge tag 'lsm-pr-20240830' of git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm
++  * Merge tag 'pm-6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm
++  * Merge tag 'dmaengine-fix-6.11' of git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine
++  * Merge tag 'phy-fixes-6.11' of git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy
++  * Merge tag 'soundwire-6.11-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/soundwire
++  * Merge tag 'iommu-fixes-v6.11-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux
++  * tcp_bpf: fix return value of tcp_bpf_sendmsg()
++  * MAINTAINERS: PCI: Add NXP PCI controller mailing list imx@lists.linux.dev
++  * bpf: Fix a crash when btf_parse_base() returns an error pointer
++  * io_uring/kbuf: return correct iovec count from classic buffer peek
++  * nfsd: fix nfsd4_deleg_getattr_conflict in presence of third party lease
++  * regulator: core: Stub devm_regulator_bulk_get_const() if !CONFIG_REGULATOR
++  * io_uring/rsrc: ensure compat iovecs are copied correctly
++  * Merge tag 'usb-serial-6.11-rc6' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
++  * mm: Fix filemap_invalidate_inode() to use invalidate_inode_pages2_range()
++  * ASoC: codecs: lpass-va-macro: set the default codec version for sm8250
++  * drm: komeda: Fix an issue related to normalized zpos
++  * net/smc: prevent NULL pointer dereference in txopt_get
++  * spi: intel: Add check devm_kasprintf() returned value
++  * platform/x86: dell-smbios: Fix error path in dell_smbios_init()
++  * ALSA: hda: add HDMI codec ID for Intel PTL
++  * ALSA: hda/realtek: add patch for internal mic in Lenovo V145
++  * Merge tag 'drm-fixes-2024-08-30' of https://gitlab.freedesktop.org/drm/kernel
++  * Merge branch '1GbE' of git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue
++  * ksmbd: Unlock on in ksmbd_tcp_set_interfaces()
++  * ksmbd: unset the binding mark of a reused connection
++  * smb: Annotate struct xattr_smb_acl with __counted_by()
++  * Merge tag 'drm-misc-fixes-2024-08-29' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
++  * Merge tag 'drm-xe-fixes-2024-08-29' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
++  * Merge tag 'execve-v6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux
++  * dcache: keep dentry_hashtable or d_hash_shift even when not used
++  * Merge tag 'drm-intel-fixes-2024-08-29' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
++  * MAINTAINERS: exclude bluetooth and wireless DT bindings from netdev ML
++  * clk: starfive: jh7110-sys: Add notifier for PLL0 clock
++  * Merge tag 'hwmon-for-v6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging
++  * Merge tag 'net-6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
++  * clk: qcom: gcc-sm8650: Don't use shared clk_ops for QUPs
++  * clk: qcom: gcc-sm8550: Don't park the USB RCG at registration time
++  * clk: qcom: gcc-sm8550: Don't use parking clk_ops for QUPs
++  * Input: cypress_ps2 - fix waiting for command response
++  * ASoC: sunxi: sun4i-i2s: fix LRCLK polarity in i2s mode
++  * drm/xe/hwmon: Fix WRITE_I1 param from u32 to u16
++  * Merge patch series "riscv: mm: Do not restrict mmap address based on hint"
++  * ASoC: amd: yc: Add a quirk for MSI Bravo 17 (D7VEK)
++  * riscv: mm: Do not restrict mmap address based on hint
++  * riscv: selftests: Remove mmap hint address checks
++  * Revert "RISC-V: mm: Document mmap changes"
++  * spi: spidev: Add an entry for elgin,jg10309-01
++  * arm64: dts: rockchip: Fix compatibles for RK3588 VO{0,1}_GRF
++  * dt-bindings: soc: rockchip: Fix compatibles for RK3588 VO{0,1}_GRF
++  * nfc: pn533: Add poll mod list filling check
++  * fuse: disable the combination of passthrough and writeback cache
++  * Merge tag 'nf-24-08-28' of git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf
++  * mailmap: update entry for Sriram Yagnaraman
++  * Merge branch 'mptcp-more-fixes-for-the-in-kernel-pm'
++  * selftests: mptcp: join: check re-re-adding ID 0 signal
++  * mptcp: pm: ADD_ADDR 0 is not a new address
++  * selftests: mptcp: join: validate event numbers
++  * mptcp: avoid duplicated SUB_CLOSED events
++  * selftests: mptcp: join: check re-re-adding ID 0 endp
++  * mptcp: pm: fix ID 0 endp usage after multiple re-creations
++  * mptcp: pm: do not remove already closed subflows
++  * selftests: mptcp: join: no extra msg if no counter
++  * selftests: mptcp: join: check re-adding init endp with != id
++  * mptcp: pm: reset MPC endp ID when re-added
++  * mptcp: pm: skip connecting to already established sf
++  * mptcp: pm: send ACK on an active subflow
++  * selftests: mptcp: join: check removing ID 0 endpoint
++  * mptcp: pm: fix RM_ADDR ID for the initial subflow
++  * mptcp: pm: reuse ID 0 after delete and re-add
++  * Merge tag 'amd-drm-fixes-6.11-2024-08-28' of https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
++  * powerpc/qspinlock: Fix deadlock in MCS queue
++  * Merge tag 'random-6.11-rc6-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/crng/random
++  * scsi: ufs: ufs-mediatek: Add UFSHCD_QUIRK_BROKEN_LSDBS_CAP
++  * net: busy-poll: use ktime_get_ns() instead of local_clock()
++  * Merge tag 'wireless-2024-08-28' of git://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless
++  * selinux,smack: don't bypass permissions check in inode_setsecctx hook
++  * ice: Add netif_device_attach/detach into PF reset flow
++  * igb: Fix not clearing TimeSync interrupts for 82580
++  * cifs: Fix FALLOC_FL_ZERO_RANGE to preflush buffered part of target region
++  * ASoC: mediatek: mt8188-mt6359: Modify key
++  * Merge tag 'riscv-soc-fixes-for-v6.11-rc6' of https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux into arm/fixes
++  * Merge tag 'qcom-arm64-fixes-for-6.11' of https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux into arm/fixes
++  * Merge tag 'qcom-arm64-defconfig-fixes-for-6.11' of https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux into arm/fixes
++  * Merge tag 'qcom-drivers-fixes-for-6.11' of https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux into arm/fixes
++  * Merge tag 'imx-fixes-6.11' of https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux into arm/fixes
++  * Merge tag 'omap-for-v6.11/fixes-signed' of https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap into arm/fixes
++  * spi: rockchip: Resolve unbalanced runtime PM / system PM handling
++  * Merge tag 'loongarch-fixes-6.11-2' of git://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson
++  * Merge tag 'platform-drivers-x86-v6.11-5' of git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86
++  * Merge tag 'nfsd-6.11-2' of git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
++  * Merge tag 'for-6.11-rc5-tag' of git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux
++  * fuse: update stats for pages in dropped aux writeback list
++  * fuse: clear PG_uptodate when using a stolen page
++  * fuse: fix memory leak in fuse_create_open
++  * fuse: check aborted connection before adding requests to pending list for resending
++  * fuse: use unsigned type for getxattr/listxattr size truncation
++  * mmc: dw_mmc: Fix IDMAC operation with pages bigger than 4K
++  * cpufreq/amd-pstate: Remove warning for X86_FEATURE_CPPC on certain Zen models
++  * mmc: sdhci-of-aspeed: fix module autoloading
++  * block: fix detection of unsupported WRITE SAME in blkdev_issue_write_zeroes
++  * drm/v3d: Disable preemption while updating GPU stats
++  * drm/amd/pm: Drop unsupported features on smu v14_0_2
++  * drm/amd/pm: Add support for new P2S table revision
++  * drm/amdgpu: support for gc_info table v1.3
++  * drm/amd/display: avoid using null object of framebuffer
++  * drm/amdgpu/gfx12: set UNORD_DISPATCH in compute MQDs
++  * drm/amd/pm: update message interface for smu v14.0.2/3
++  * drm/amdgpu/swsmu: always force a state reprogram on init
++  * drm/amdgpu/smu13.0.7: print index for profiles
++  * drm/amdgpu: align pp_power_profile_mode with kernel docs
++  * dmaengine: dw-edma: Do not enable watermark interrupts for HDMA
++  * dmaengine: dw-edma: Fix unmasking STOP and ABORT interrupts for HDMA
++  * cifs: Fix copy offload to flush destination region
++  * netfs, cifs: Fix handling of short DIO read
++  * cifs: Fix lack of credit renegotiation on read retry
++  * KVM: SEV: Update KVM_AMD_SEV Kconfig entry and mention SEV-SNP
++  * ASoc: SOF: topology: Clear SOF link platform name upon unload
++  * x86/resctrl: Fix arch_mbm_* array overrun on SNC
++  * drm/i915/dp_mst: Fix MST state after a sink reset
++  * ALSA: hda/conexant: Add pincfg quirk to enable top speakers on Sirius devices
++  * Merge tag 'v6.11-rc5-client-fixes' of git://git.samba.org/sfrench/cifs-2.6
++  * Merge tag 'tpmdd-next-6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd
++  * sctp: fix association labeling in the duplicate COOKIE-ECHO case
++  * Merge branch 'mptcp-close-subflow-when-receiving-tcp-fin-and-misc'
++  * mptcp: pr_debug: add missing \n at the end
++  * mptcp: sched: check both backup in retrans
++  * selftests: mptcp: join: cannot rm sf if closed
++  * mptcp: close subflow when receiving TCP+FIN
++  * tcp: fix forever orphan socket caused by tcp_abort
++  * gtp: fix a potential NULL pointer dereference
++  * rust: allow `stable_features` lint
++  * docs: rust: remove unintended blockquote in Quick Start
++  * Merge branch 'fixes-for-ipsec-over-bonding'
++  * bonding: change ipsec_lock from spin lock to mutex
++  * bonding: extract the use of real_device into local variable
++  * bonding: implement xdo_dev_state_free and call it after deletion
++  * selftests: forwarding: local_termination: Down ports on cleanup
++  * selftests: forwarding: no_forwarding: Down ports on cleanup
++  * nvme-pci: Add sleep quirk for Samsung 990 Evo
++  * Merge tag 'amd-pstate-v6.11-2024-08-26' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/superm1/linux
++  * Merge tag 'livepatching-for-6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/livepatching/livepatching
++  * Merge tag 'pinctrl-v6.11-2' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
++  * Merge tag 'sound-6.11-rc6' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
++  * tpm: ibmvtpm: Call tpm2_sessions_init() to initialize session support
++  * clk: qcom: gcc-x1e80100: Don't use parking clk_ops for QUPs
++  * Merge tag 'qcom-clk-fixes-for-6.11' of https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux into clk-fixes
++  * netfilter: nf_tables_ipv6: consider network offset in netdev/egress validation
++  * net_sched: sch_fq: fix incorrect behavior for small weights
++  * nvme-pci: allocate tagset on reset if necessary
++  * btrfs: fix uninitialized return value from btrfs_reclaim_sweep()
++  * drm/xe: Invalidate media_gt TLBs
++  * xfs: reset rootdir extent size hint after growfsrt
++  * xfs: take m_growlock when running growfsrt
++  * xfs: Fix missing interval for missing_owner in xfs fsmap
++  * xfs: use XFS_BUF_DADDR_NULL for daddrs in getfsmap code
++  * ionic: Prevent tx_timeout due to frequent doorbell ringing
++  * drm/i915: ARL requires a newer GSC firmware
++  * drm/i915/dsi: Make Lenovo Yoga Tab 3 X90F DMI match less strict
++  * wifi: iwlwifi: clear trans->state earlier upon error
++  * wifi: wfx: repair open network AP mode
++  * USB: serial: option: add MeiG Smart SRM825L
++  * Merge tag 'vfs-6.11-rc6.fixes' of gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs
++  * hwmon: (pt5161l) Fix invalid temperature reading
++  * bcachefs: Fix bch2_extents_match() false positive
++  * bcachefs: Fix failure to return error in data_update_index_update()
++  * btrfs: fix a use-after-free when hitting errors inside btrfs_submit_chunk()
++  * video/aperture: optionally match the device in sysfb_disable()
++  * fs/nfsd: fix update of inode attrs in CB_GETATTR
++  * nvmet-tcp: fix kernel crash if commands allocation fails
++  * net: ti: icssg-prueth: Fix 10M Link issue on AM64x
++  * rust: alloc: eschew `Box<MaybeUninit<T>>::write`
++  * ata: libata: Fix memory leak for error path in ata_host_alloc()
++  * ethtool: check device is present when getting link settings
++  * ASoC: fix module autoloading
++  * binfmt_elf_fdpic: fix AUXV size calculation when ELF_HWCAP2 is defined
++  * x86/tdx: Fix data leak in mmio_read()
++  * ASoC: SOF: ipc: replace "enum sof_comp_type" field with "uint32_t"
++  * Merge tag 'for-net-2024-08-23' of git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth
++  * nfsd: fix potential UAF in nfsd4_cb_getattr_release
++  * nfsd: hold reference to delegation when updating it for cb_getattr
++  * MAINTAINERS: Update Olga Kornievskaia's email address
++  * wifi: mac80211: free skb on error path in ieee80211_beacon_get_ap()
++  * wifi: iwlwifi: mvm: don't wait for tx queues if firmware is dead
++  * wifi: iwlwifi: mvm: allow 6 GHz channels in MLO scan
++  * wifi: iwlwifi: mvm: pause TCM when the firmware is stopped
++  * wifi: iwlwifi: fw: fix wgds rev 3 exact size
++  * wifi: iwlwifi: mvm: take the mutex before running link selection
++  * wifi: iwlwifi: mvm: fix iwl_mvm_max_scan_ie_fw_cmd_room()
++  * wifi: iwlwifi: mvm: fix iwl_mvm_scan_fits() calculation
++  * wifi: iwlwifi: lower message level for FW buffer destination
++  * wifi: iwlwifi: mvm: fix hibernation
++  * wifi: mac80211: fix beacon SSID mismatch handling
++  * LoongArch: KVM: Invalidate guest steal time address on vCPU reset
++  * LoongArch: Add ifdefs to fix LSX and LASX related warnings
++  * LoongArch: Define ARCH_IRQ_INIT_FLAGS as IRQ_NOPROBE
++  * btrfs: initialize last_extent_end to fix -Wmaybe-uninitialized warning in extent_fiemap()
++  * ASoC: fix module autoloading
++  * ASoC: tda7419: fix module autoloading
++  * ASoC: google: fix module autoloading
++  * ASoC: intel: fix module autoloading
++  * net: ftgmac100: Ensure tx descriptor updates are visible
++  * kunit: Device wrappers should also manage driver name
++  * selftests/livepatch: wait for atomic replace to occur
++  * platform/x86: x86-android-tablets: Make Lenovo Yoga Tab 3 X90F DMI match less strict
++  * platform/x86: asus-wmi: Fix spurious rfkill on UX8406MA
++  * mmc: core: apply SD quirks earlier during probe
++  * netfilter: nf_tables: restore IP sanity checks for netdev/egress
++  * ALSA: hda: hda_component: Fix mutex crash if nothing ever binds
++  * ALSA: hda/realtek: support HP Pavilion Aero 13-bg0xxx Mute LED
++  * random: vDSO: reject unknown getrandom() flags
++  * MAINTAINERS: Add Jean-Philippe as SMMUv3 SVA reviewer
++  * iommu: Do not return 0 from map_pages if it doesn't do anything
++  * iommufd: Do not allow creating areas without READ or WRITE
++  * iommu/vt-d: Fix incorrect domain ID in context flush helper
++  * xfs: Fix the owner setting issue for rmap query in xfs fsmap
++  * xfs: don't bother reporting blocks trimmed via FITRIM
++  * xfs: xfs_finobt_count_blocks() walks the wrong btree
++  * xfs: fix folio dirtying for XFILE_ALLOC callers
++  * xfs: fix di_onlink checking for V1/V2 inodes
++  * drm/vmwgfx: Disable coherent dumb buffers without 3d
++  * drm/vmwgfx: Fix prime with external buffers
++  * drm/vmwgfx: Prevent unmapping active read buffers
++  * hwmon: (asus-ec-sensors) remove VRM temp X570-E GAMING
++  * btrfs: run delayed iputs when flushing delalloc
++  * perf/x86/intel: Limit the period on Haswell
++  * ALSA: hda/realtek: Fix the speaker output on Samsung Galaxy Book3 Ultra
++  * LoongArch: Remove the unused dma-direct.h
++  * cifs: Fix FALLOC_FL_PUNCH_HOLE support
++  * smb/client: fix rdma usage in smb2_async_writev()
++  * smb/client: remove unused rq_iter_size from struct smb_rqst
++  * smb/client: avoid dereferencing rdata=NULL in smb2_new_read_req()
++  * pinctrl: rockchip: correct RK3328 iomux width flag for GPIO2-B pins
++  * netfs: Fix interaction of streaming writes with zero-point tracker
++  * netfs: Fix missing iterator reset on retry of short read
++  * netfs: Fix trimming of streaming-write folios in netfs_inval_folio()
++  * netfs: Fix netfs_release_folio() to say no if folio dirty
++  * afs: Fix post-setattr file edit to do truncation correctly
++  * mm: Fix missing folio invalidation calls during truncation
++  * Merge patch series "ovl: simplify ovl_parse_param_lowerdir()"
++  * usb: cdnsp: fix for Link TRB with TC
++  * ASoC: tegra: Fix CBB error during probe()
++  * ASoC: dapm: Fix UAF for snd_soc_pcm_runtime object
++  * Bluetooth: hci_core: Fix not handling hibernation actions
++  * Bluetooth: btnxpuart: Fix random crash seen while removing driver
++  * Bluetooth: btintel: Allow configuring drive strength of BRI
++  * ovl: ovl_parse_param_lowerdir: Add missed '\n' for pr_err
++  * ovl: fix wrong lowerdir number check for parameter Opt_lowerdir
++  * ovl: pass string to ovl_parse_layer()
++  * nvme: use better description for async reset reason
++  * nvmet: Make nvmet_debugfs static
++  * nfsd: prevent panic for nfsv4.0 closed files in nfs4_show_open
++  * pinctrl: starfive: jh7110: Correct the level trigger configuration of iev register
++  * pinctrl: qcom: x1e80100: Fix special pin offsets
++  * cpufreq/amd-pstate-ut: Don't check for highest perf matching on prefcore
++  * pinctrl: mediatek: common-v2: Fix broken bias-disable for PULL_PU_PD_RSEL_TYPE
++  * pinctrl: single: fix potential NULL dereference in pcs_get_function()
++  * pinctrl: at91: make it work with current gpiolib
++  * Revert "drm/ttm: increase ttm pre-fault value to PMD size"
++  * net: mana: Fix race of mana_hwc_post_rx_wqe and new hwc response
++  * platform/x86/amd/pmc: Extend support for PMC features on new AMD platform
++  * platform/x86/amd/pmc: Fix SMU command submission path on new AMD platform
++  * irqchip/irq-msi-lib: Check for NULL ops in msi_lib_irq_domain_select()
++  * backing-file: convert to using fops->splice_write
++  * irqchip/gic-v3: Init SRE before poking sysregs
++  * ASoC: Intel: soc-acpi-cht: Make Lenovo Yoga Tab 3 X90F DMI match less strict
++  * ASoC: Intel: Boards: Fix NULL pointer deref in BYT/CHT boards harder
++  * OPP: Fix support for required OPPs for multiple PM domains
++  * net: drop special comment style
++  * iommu: Handle iommu faults for a bad iopf setup
++  * Merge tag 'asoc-fix-v6.11-rc3' of https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for-linus
++  * scsi: sd: Ignore command SYNCHRONIZE CACHE error if format in progress
++  * scsi: aacraid: Fix double-free on probe failure
++  * scsi: lpfc: Fix overflow build issue
++  * pktgen: use cpus_read_lock() in pg_net_init()
++  * cpufreq/amd-pstate: Use topology_logical_package_id() instead of logical_die_id()
++  * cpufreq: amd-pstate: Fix uninitialized variable in amd_pstate_cpu_boost_update()
++  * firmware: microchip: fix incorrect error report of programming:timeout on success
++  * KVM: SVM: Don't advertise Bus Lock Detect to guest if SVM support is missing
++  * nfsd: ensure that nfsd4_fattr_args.context is zeroed out
++  * KVM: SVM: fix emulation of msr reads/writes of MSR_FS_BASE and MSR_GS_BASE
++  * KVM: x86: Acquire kvm->srcu when handling KVM_SET_VCPU_EVENTS
++  * KVM: x86/mmu: Check that root is valid/loaded when pre-faulting SPTEs
++  * KVM: x86/mmu: Fixup comments missed by the REMOVED_SPTE=>FROZEN_SPTE rename
++  * ASoC: cs-amp-lib: Ignore empty UEFI calibration entries
++  * powerpc/mm: Fix return type of pgd_val()
++  * powerpc/vdso: Don't discard rela sections
++  * powerpc/64e: Define mmu_pte_psize static
++  * ASoC: cs-amp-lib-test: Force test calibration blob entries to be valid
++  * wifi: ath11k: fix NULL pointer dereference in ath11k_mac_get_eirp_power()
++  * ALSA: hda/realtek - FIxed ALC285 headphone no sound
++  * usb: dwc3: st: add missing depopulate in probe error path
++  * usb: dwc3: st: fix probed platform device ref count on probe error path
++  * usb: dwc3: ep0: Don't reset resource alloc flag (including ep0)
++  * usb: core: sysfs: Unmerge @usb3_hardware_lpm_attr_group in remove_power_attributes()
++  * usb: typec: fsa4480: Relax CHIP_ID check
++  * usb: dwc3: xilinx: add missing depopulate in probe error path
++  * usb: dwc3: omap: add missing depopulate in probe error path
++  * dt-bindings: usb: microchip,usb2514: Fix reference USB device schema
++  * usb: gadget: uvc: queue pump work in uvcg_video_enable()
++  * cdc-acm: Add DISABLE_ECHO quirk for GE HealthCare UI Controller
++  * usb: cdnsp: fix incorrect index in cdnsp_get_hw_deq function
++  * usb: dwc3: core: Prevent USB core invalid event buffer address access
++  * MAINTAINERS: Mark UVC gadget driver as orphan
++  * can: mcp251x: fix deadlock if an interrupt occurs during mcp251x_open
++  * ALSA: hda/realtek - Fixed ALC256 headphone no sound
++  * PCI: qcom: Use OPP only if the platform supports it
++  * PCI: qcom-ep: Disable MHI RAM data parity error interrupt for SA8775P SoC
++  * Revert "pidfd: prevent creation of pidfds for kthreads"
++  * romfs: fix romfs_read_folio()
++  * netfs, ceph: Partially revert "netfs: Replace PG_fscache by setting folio->private and marking dirty"
++  * tracing: Fix memory leak in fgraph storage selftest
++  * tracing: fgraph: Fix to add new fgraph_ops to array after ftrace_startup_subops()
++  * ASoC: allow module autoloading for table board_ids
++  * ASoC: allow module autoloading for table db1200_pids
++  * soc: qcom: pd-mapper: Fix singleton refcount
++  * firmware: qcom: tzmem: disable sdm670 platform
++  * soc: qcom: pmic_glink: Actually communicate when remote goes down
++  * usb: typec: ucsi: Move unregister out of atomic section
++  * soc: qcom: pmic_glink: Fix race during initialization
++  * ALSA: hda: cs35l56: Don't use the device index as a calibration index
++  * rust: kernel: fix typos in code comments
++  * docs: rust: remove unintended blockquote in Coding Guidelines
++  * rust: block: fix wrong usage of lockdep API
++  * rust: kbuild: fix export of bss symbols
++  * irqchip/gic-v2m: Fix refcount leak in gicv2m_of_init()
++  * irqchip/riscv-aplic: Fix an IS_ERR() vs NULL bug in probe()
++  * irqchip/gic-v4: Fix ordering between vmapp and vpe locks
++  * irqchip/sifive-plic: Probe plic driver early for Allwinner D1 platform
++  * x86/kaslr: Expose and use the end of the physical memory address space
++  * ALSA: seq: Skip event type filtering for UMP events
++  * ALSA: hda/realtek: Enable mute/micmute LEDs on HP Laptop 14-ey0xxx
++  * soundwire: stream: fix programming slave ports for non-continous port maps
++  * iio: imu: inv_mpu6050: fix interrupt status read for old buggy chips
++  * iio: adc: ad7173: fix GPIO device info
++  * ASoC: SOF: amd: Fix for acp init sequence
++  * wifi: mwifiex: duplicate static structs used in driver instances
++  * ASoC: amd: acp: fix module autoloading
++  * rtmutex: Drop rt_mutex::wait_lock before scheduling
++  * firmware: qcom: qseecom: remove unused functions
++  * firmware: qcom: tzmem: fix virtual-to-physical address conversion
++  * firmware: qcom: scm: Mark get_wq_ctx() as atomic call
++  * clk: qcom: ipq9574: Update the alpha PLL type for GPLLs
++  * arm64: dts: qcom: x1e80100: Fix Adreno SMMU global interrupt
++  * arm64: dts: qcom: disable GPU on x1e80100 by default
++  * ASoC: mediatek: mt8188: Mark AFE_DAC_CON0 register as volatile
++  * x86/fpu: Avoid writing LBR bit to IA32_XSS unless supported
++  * ASoC: codecs: wcd937x: Fix missing de-assert of reset GPIO
++  * ASoC: SOF: mediatek: Add missing board compatible
++  * x86/apic: Make x2apic_disable() work correctly
++  * ASoC: MAINTAINERS: Drop Banajit Goswami from Qualcomm sound drivers
++  * ASoC: SOF: amd: Fix for incorrect acp error register offsets
++  * ASoC: SOF: amd: move iram-dram fence register programming sequence
++  * arm64: dts: imx8mm-phygate: fix typo pinctrcl-0
++  * arm64: dts: imx95: correct L3Cache cache-sets
++  * arm64: dts: imx95: correct a55 power-domains
++  * clk: qcom: gcc-x1e80100: Fix USB 0 and 1 PHY GDSC pwrsts flags
++  * arm64: dts: freescale: imx93-tqma9352-mba93xxla: fix typo
++  * arm64: dts: freescale: imx93-tqma9352: fix CMA alloc-ranges
++  * MAINTAINERS: Add Manivannan Sadhasivam as Reviewer for PCI native host bridge and endpoint drivers
++  * ARM: dts: imx6dl-yapp43: Increase LED current to match the yapp4 HW design
++  * arm64: dts: imx93: update default value for snps,clk-csr
++  * arm64: dts: freescale: tqma9352: Fix watchdog reset
++  * arm64: dts: imx8mp-beacon-kit: Fix Stereo Audio on WM8962
++  * ASoC: codecs: warn on unknown codec version
++  * ASoC: codecs: lpass-va-macro: warn on unknown version
++  * ASoC: codecs: lpass-macro: fix version strings returned for 1.x codecs
++  * MAINTAINERS: Update DTS path for ARM/Microchip (AT91) SoC
++  * iio: adc: ad7124: fix DT configuration parsing
++  * iio: adc: ad_sigma_delta: fix irq_flags on irq request
++  * Merge patch series "can: mcp251xfd: fix ring/coalescing configuration"
++  * can: mcp251xfd: mcp251xfd_ring_init(): check TX-coalescing configuration
++  * can: mcp251xfd: fix ring configuration when switching from CAN-CC to CAN-FD mode
++  * Merge patch series "can: m_can: Fix polling and other issues"
++  * can: m_can: Limit coalescing to peripheral instances
++  * can: m_can: Reset cached active_interrupts on start
++  * can: m_can: disable_all_interrupts, not clear active_interrupts
++  * can: m_can: Do not cancel timer from within timer
++  * can: m_can: Remove m_can_rx_peripheral indirection
++  * can: m_can: Remove coalesing disable in isr during suspend
++  * can: m_can: Reset coalescing during suspend/resume
++  * can: m_can: Release irq on error in m_can_open
++  * can: bcm: Remove proc entry when dev is unregistered.
++  * ARM: dts: omap3-n900: correct the accelerometer orientation
++  * dmaengine: stm32-dma3: Set lli_size after allocation
++  * dmaengine: ti: omap-dma: Initialize sglen after allocation
++  * dmaengine: dw: Unify ret-val local variables naming
++  * dmaengine: dw: Simplify max-burst calculation procedure
++  * dmaengine: dw: Define encode_maxburst() above prepare_ctllo() callbacks
++  * dmaengine: dw: Simplify prepare CTL_LO methods
++  * dmaengine: dw: Add memory bus width verification
++  * dmaengine: dw: Add peripheral bus width verification
++  * phy: xilinx: phy-zynqmp: Fix SGMII linkup failure on resume
++  * arm64: dts: layerscape: fix thermal node names length
++  * pinctrl: qcom: x1e80100: Update PDC hwirq map
++  * phy: exynos5-usbdrd: fix error code in probe()
++  * phy: fsl-imx8mq-usb: fix tuning parameter name
++  * phy: qcom: qmp-pcie: Fix X1E80100 PCIe Gen4 PHY initialisation
++  * iio: adc: ads1119: Fix IRQ flags
++  * iio: fix scale application in iio_convert_raw_to_processed_unlocked
++  * iio: adc: ad7124: fix config comparison
++  * iio: adc: ad7124: fix chip ID mismatch
++  * Drivers: hv: vmbus: Fix the misplaced function description
++  * tools: hv: lsvmbus: change shebang to use python3
++  * x86/hyperv: Set X86_FEATURE_TSC_KNOWN_FREQ when Hyper-V provides frequency
++  * clk: qcom: clk-alpha-pll: Update set_rate for Zonda PLL
++  * clk: qcom: clk-alpha-pll: Fix zonda set_rate failure when PLL is disabled
++  * clk: qcom: clk-alpha-pll: Fix the trion pll postdiv set rate API
++  * clk: qcom: clk-alpha-pll: Fix the pll post div mask
++  * arm64: dts: rockchip: override BIOS_DISABLE signal via GPIO hog on RK3399 Puma
++  * arm64: dts: rockchip: fix eMMC/SPI corruption when audio has been used on RK3399 Puma
++  * pinctrl: meteorlake: Add Arrow Lake-H/U ACPI ID
++  * MAINTAINERS: Update Konrad Dybcio's email address
++  * mailmap: Add an entry for Konrad Dybcio
++  * arm64: dts: qcom: x1e80100-crd: Fix backlight
++  * arm64: dts: qcom: x1e80100-yoga-slim7x: fix missing PCIe4 gpios
++  * arm64: dts: qcom: x1e80100-yoga-slim7x: disable PCIe6a perst pull down
++  * arm64: dts: qcom: x1e80100-yoga-slim7x: fix up PCIe6a pinctrl node
++  * arm64: dts: qcom: x1e80100-yoga-slim7x: fix PCIe4 PHY supply
++  * arm64: dts: qcom: x1e80100-vivobook-s15: fix missing PCIe4 gpios
++  * arm64: dts: qcom: x1e80100-vivobook-s15: disable PCIe6a perst pull down
++  * arm64: dts: qcom: x1e80100-vivobook-s15: fix up PCIe6a pinctrl node
++  * arm64: dts: qcom: x1e80100-vivobook-s15: fix PCIe4 PHY supply
++  * arm64: dts: qcom: x1e80100-qcp: fix missing PCIe4 gpios
++  * arm64: dts: qcom: x1e80100-qcp: disable PCIe6a perst pull down
++  * arm64: dts: qcom: x1e80100-qcp: fix up PCIe6a pinctrl node
++  * arm64: dts: qcom: x1e80100-qcp: fix PCIe4 PHY supply
++  * arm64: dts: qcom: x1e80100-crd: fix missing PCIe4 gpios
++  * arm64: dts: qcom: x1e80100-crd: disable PCIe6a perst pull down
++  * arm64: dts: qcom: x1e80100-crd: fix up PCIe6a pinctrl node
++  * arm64: dts: qcom: x1e80100: add missing PCIe minimum OPP
++  * arm64: dts: qcom: x1e80100: fix PCIe domain numbers
++  * arm64: dts: qcom: x1e80100-crd: fix PCIe4 PHY supply
++  * iio: adc: ad7173: Fix incorrect compatible string
++  * iio: buffer-dmaengine: fix releasing dma channel on error
++  * iio: adc: ad7606: remove frstdata check for serial mode
++  * staging: iio: frequency: ad9834: Validate frequency parameter value
++  * arm64: dts: rockchip: fix PMIC interrupt pin in pinctrl for ROCK Pi E
++  * arm64: dts: rockchip: Remove broken tsadc pinctrl binding for rk356x
++  * arm64: dts: qcom: ipq5332: Fix interrupt trigger type for usb
++  * arm64: dts: qcom: x1e80100-yoga: add wifi calibration variant
++  * soc: qcom: pd-mapper: mark qcom_pdm_domains as __maybe_unused
++  * soc: qcom: cmd-db: Map shared memory as WC, not WB
++  * arm64: defconfig: Add CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20
++  * soc: qcom: pd-mapper: Depend on ARCH_QCOM || COMPILE_TEST
++  * Documentation: hyperv: Add overview of Confidential Computing VM support
++  * clocksource: hyper-v: Use lapic timer in a TDX VM without paravisor
++  * Drivers: hv: Remove deprecated hv_fcopy declarations
++
++ -- Joshua Riek <jjriek@verizon.net>  Mon, 16 Sep 2024 09:51:18 -0400
++
+ linux-rockchip (6.11.0-1005.5) oracular; urgency=medium
+ 
+   * Linux 6.11-rc6
+-- 
+2.43.0
+

@@ -1,0 +1,45 @@
+From 2a5e23f029ac47829348b87dd56409698fd7e3bf Mon Sep 17 00:00:00 2001
+From: Henrik Johnson <spam@henrik.org>
+Date: Tue, 17 Sep 2024 09:55:46 -0700
+Subject: [PATCH 351/364] Enabled DLM properly and not just the GFS2 filesystem
+ support for it
+
+---
+ debian.rockchip/config/config.common.ubuntu | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index f8c061726a00..5776705e16f6 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -2382,6 +2382,7 @@ CONFIG_MD_RAID10=m
+ CONFIG_MD_RAID456=m
+ CONFIG_MD_MULTIPATH=m
+ CONFIG_MD_FAULTY=m
++CONFIG_MD_CLUSTER=n
+ CONFIG_BCACHE=m
+ # CONFIG_BCACHE_DEBUG is not set
+ # CONFIG_BCACHE_CLOSURES_DEBUG is not set
+@@ -8458,7 +8459,7 @@ CONFIG_OCFS2_FS=m
+ CONFIG_OCFS2_FS_O2CB=m
+ CONFIG_OCFS2_FS_STATS=y
+ CONFIG_OCFS2_DEBUG_MASKLOG=y
+-CONFIG_DLM=m
++CONFIG_OCFS2_FS_USERSPACE_CLUSTER=n
+ # CONFIG_OCFS2_DEBUG_FS is not set
+ CONFIG_BTRFS_FS=y
+ CONFIG_BTRFS_FS_POSIX_ACL=y
+@@ -8751,7 +8752,9 @@ CONFIG_NLS_ISO8859_1=y
+ # CONFIG_NLS_MAC_ROMANIAN is not set
+ # CONFIG_NLS_MAC_TURKISH is not set
+ CONFIG_NLS_UTF8=y
+-# CONFIG_DLM is not set
++CONFIG_DLM=m
++CONFIG_DLM_DEPRECATED_API=n
++CONFIG_DLM_DEBUG=n
+ CONFIG_UNICODE=y
+ # CONFIG_UNICODE_NORMALIZATION_SELFTEST is not set
+ CONFIG_IO_WQ=y
+-- 
+2.43.0
+

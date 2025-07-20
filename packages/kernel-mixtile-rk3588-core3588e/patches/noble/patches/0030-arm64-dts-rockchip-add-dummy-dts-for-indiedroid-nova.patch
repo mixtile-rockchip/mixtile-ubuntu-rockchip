@@ -1,0 +1,77 @@
+From 6686757a49bc5e8b1eb7eece84699a21b4e06a7b Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Thu, 21 Mar 2024 21:44:09 -0400
+Subject: [PATCH 255/364] arm64: dts: rockchip: add dummy dts for indiedroid
+ nova and blade 3
+
+---
+ arch/arm64/boot/dts/rockchip/Makefile              |  2 ++
+ .../boot/dts/rockchip/rk3588-mixtile-blade3.dts    | 14 ++++++++++++++
+ .../boot/dts/rockchip/rk3588s-indiedroid-nova.dts  | 14 ++++++++++++++
+ 3 files changed, 30 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts
+ create mode 100755 arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts
+
+diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
+index 924831d5880a..029afba7d469 100644
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -216,6 +216,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-toybrick-sd0-linux.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-toybrick-x0-android.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-toybrick-x0-linux.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-blade3-v101-linux.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-mixtile-blade3.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-blueberry-edge-v10-linux.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-blueberry-edge-v12-linux.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-blueberry-edge-v12-maizhuo-linux.dtb
+@@ -366,6 +367,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-evb4-lp4x-v10.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-evb4-lp4x-v10-linux.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-evb8-lp4x-v10.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-9tripod-linux.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-indiedroid-nova.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-khadas-edge2.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-lubancat-4.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588s-nanopi-r6c.dtb
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts b/arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts
+new file mode 100644
+index 000000000000..a943aabeb991
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts
+@@ -0,0 +1,14 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (c) 2022 Mixtile Limited
++ *
++ */
++
++/dts-v1/;
++
++#include "rk3588-blade3-v101-linux.dts"
++
++/ {
++	model = "Mixtile Blade 3";
++	compatible = "rockchip,rk3588-blade3-v101-linux", "rockchip,rk3588";
++};
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts b/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts
+new file mode 100755
+index 000000000000..22a57a9d5f36
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts
+@@ -0,0 +1,14 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
++ *
++ */
++
++/dts-v1/;
++
++#include "rk3588s-9tripod-linux.dts"
++
++/ {
++	model = "Indiedroid Nova";
++	compatible = "9tripod,rk3588s", "rockchip,rk3588";
++};
+-- 
+2.43.0
+

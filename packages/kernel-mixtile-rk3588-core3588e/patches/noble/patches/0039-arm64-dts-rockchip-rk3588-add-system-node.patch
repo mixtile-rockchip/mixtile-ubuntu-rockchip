@@ -1,0 +1,79 @@
+From ffecbcb4bdd9be27088b8cb75b13440b94049722 Mon Sep 17 00:00:00 2001
+From: Stephen Chen <stephen@radxa.com>
+Date: Mon, 27 May 2024 16:51:27 +0800
+Subject: [PATCH 292/364] arm64: dts: rockchip: rk3588: add system node
+
+Signed-off-by: Stephen Chen <stephen@radxa.com>
+(cherry picked from commit bcb35148eaa248f174e0c3d429f027f0b313d57c)
+Signed-off-by: Joshua Riek <jjriek@verizon.net>
+---
+ arch/arm64/boot/dts/rockchip/rk3588.dtsi  | 4 ++++
+ arch/arm64/boot/dts/rockchip/rk3588j.dtsi | 6 ++++++
+ arch/arm64/boot/dts/rockchip/rk3588m.dtsi | 6 ++++++
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 4 ++++
+ 4 files changed, 20 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588.dtsi b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+index 357e879cc0b4..3f54b3ab960b 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+@@ -27,6 +27,10 @@ aliases {
+ 		usbdp1 = &usbdp_phy1;
+ 	};
+ 
++	system {
++		cpu,model = "Rockchip RK3588";
++	};
++
+ 	rkcif_mipi_lvds4: rkcif-mipi-lvds4 {
+ 		compatible = "rockchip,rkcif-mipi-lvds";
+ 		rockchip,hw = <&rkcif>;
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588j.dtsi b/arch/arm64/boot/dts/rockchip/rk3588j.dtsi
+index 7b084b273b27..f4663ea17f36 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588j.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588j.dtsi
+@@ -6,6 +6,12 @@
+ 
+ #include "rk3588.dtsi"
+ 
++/{
++	system {
++		cpu,model = "Rockchip RK3588J";
++	};
++};
++
+ &cluster0_opp_table {
+ 	/*
+ 	 * The Max frequency is 1296MHz in default normal mode.
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588m.dtsi b/arch/arm64/boot/dts/rockchip/rk3588m.dtsi
+index 38b9dbf38a21..5cc84991b1c5 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588m.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588m.dtsi
+@@ -5,3 +5,9 @@
+  */
+ 
+ #include "rk3588.dtsi"
++
++/{
++	system {
++		cpu,model = "Rockchip RK3588M";
++	};
++};
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+index 11a7ea7791b0..6b5a512aace4 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+@@ -22,6 +22,10 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+ 
++	system {
++		cpu,model = "Rockchip RK3588S";
++	};
++
+ 	aliases {
+ 		csi2dcphy0 = &csi2_dcphy0;
+ 		csi2dcphy1 = &csi2_dcphy1;
+-- 
+2.43.0
+
