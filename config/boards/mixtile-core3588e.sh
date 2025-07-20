@@ -4,6 +4,7 @@ export BOARD_NAME="Mixtile Core 3588E"
 export BOARD_MAKER="Mixtile"
 export BOARD_SOC="Rockchip RK3588"
 export BOARD_CPU="ARM Cortex A76 / A55"
+export KERNEL_PACKAGE="kernel-mixtile-rk3588-core3588e"
 export UBOOT_PACKAGE="u-boot-radxa-rk3588-core3588e"
 export UBOOT_RULES_TARGET="mixtile-core3588e-rk3588"
 export COMPATIBLE_SUITES=("jammy" "noble")
