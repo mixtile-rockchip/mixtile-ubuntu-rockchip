@@ -73,3 +73,4 @@
 0073-UBUNTU-add-rockchip-flavor.patch
 0074-UBUNTU-Ubuntu-rockchip-6.11.0-1006.6.patch
 0075-fix-config.patch
+0076-arm64-dts-rockchip-Add-rk3588-mixtile-blade3-support.patch
