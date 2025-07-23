@@ -26,7 +26,10 @@ jobs:
                 source "${file}"
                 for suite in "${COMPATIBLE_SUITES[@]}"; do
                     for flavor in "${COMPATIBLE_FLAVORS[@]}"; do
-                    build_matrix+="{\"board\":\"$(basename "${file%.sh}")\",\"suite\":\"${suite}\",\"flavor\":\"${flavor}\"},"
+                        if [[ "$suite" == "plucky" && "$flavor" != "server" ]]; then
+                            continue
+                        fi
+                        build_matrix+="{\"board\":\"$(basename "${file%.sh}")\",\"suite\":\"${suite}\",\"flavor\":\"${flavor}\"},"
                     done
                 done
             done
