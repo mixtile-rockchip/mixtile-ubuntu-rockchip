@@ -1,0 +1,47 @@
+From df2b506675a332abb0fcb3cc0be95d0e9e2bbfa4 Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Sun, 28 Jul 2024 22:37:05 -0400
+Subject: [PATCH 259/262] UBUNTU: Ubuntu-rockchip-5.10.0-1011.11
+
+---
+ debian.rockchip/abi/abiname | 2 +-
+ debian.rockchip/abi/version | 2 +-
+ debian.rockchip/changelog   | 9 +++++++++
+ 3 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/debian.rockchip/abi/abiname b/debian.rockchip/abi/abiname
+index 021ea30c0eb2..9f1d48efca0e 100644
+--- a/debian.rockchip/abi/abiname
++++ b/debian.rockchip/abi/abiname
+@@ -1,2 +1,2 @@
+-10
++11
+ 
+diff --git a/debian.rockchip/abi/version b/debian.rockchip/abi/version
+index 0a7015d3359f..598fcea3e925 100644
+--- a/debian.rockchip/abi/version
++++ b/debian.rockchip/abi/version
+@@ -1,2 +1,2 @@
+-5.10.0-1010.10
++5.10.0-1011.11
+ 
+diff --git a/debian.rockchip/changelog b/debian.rockchip/changelog
+index 9d1f275b1550..dd2b3e45fe6c 100644
+--- a/debian.rockchip/changelog
++++ b/debian.rockchip/changelog
+@@ -1,3 +1,12 @@
++linux-rockchip (5.10.0-1011.11) jammy; urgency=medium
++
++  * arm64: dts: rockchip: Add support for the ArmSoM AIM7
++  * Add DTS files for Firefly AIO-3588L
++  * arm64: dts: rockchip: add the Orange Pi CM5
++  * arm64: dts: rockchip: add the Orange Pi 5 Max
++
++ -- Joshua Riek <jjriek@verizon.net>  Sun, 28 Jul 2024 22:34:36 -0400
++
+ linux-rockchip (5.10.0-1010.10) jammy; urgency=medium
+ 
+   * phy: rockchip-samsung-hdptx-hdmi: get phy init status before register clk
+-- 
+2.43.0
+

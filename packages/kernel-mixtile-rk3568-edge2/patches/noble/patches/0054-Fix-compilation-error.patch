@@ -1,0 +1,32 @@
+From a2a159789d293e4516c10eb97de6652590b12693 Mon Sep 17 00:00:00 2001
+From: ewaldc <ewald_comhaire@hotmail.com>
+Date: Wed, 17 Jul 2024 09:44:48 +0200
+Subject: [PATCH 329/364] Fix compilation error
+
+See https://www.spinics.net/lists/kernel/msg4883175.html
+---
+ tools/perf/tests/bpf.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/tools/perf/tests/bpf.c b/tools/perf/tests/bpf.c
+index 6a4235a9cf57..b45f9dfee77b 100644
+--- a/tools/perf/tests/bpf.c
++++ b/tools/perf/tests/bpf.c
+@@ -29,11 +29,12 @@
+ 
+ static int epoll_pwait_loop(void)
+ {
+-	int i;
++	struct epoll_event events;
++    int i;
+ 
+ 	/* Should fail NR_ITERS times */
+ 	for (i = 0; i < NR_ITERS; i++)
+-		epoll_pwait(-(i + 1), NULL, 0, 0, NULL);
++		epoll_pwait(-(i + 1), &events, 0, 0, NULL);
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
+

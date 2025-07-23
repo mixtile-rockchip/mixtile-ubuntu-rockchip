@@ -1,0 +1,5 @@
+0001-arch-arm-mach-rockchip-fix-srctree-path.patch
+0002-Add-Mixtile-edge2.patch
+0003-fix-gcc13-compile-error.patch
+0004-fix-noble-compile-error.patch
+0005-Revert-rockchip-resource-Add-avb-verify.patch

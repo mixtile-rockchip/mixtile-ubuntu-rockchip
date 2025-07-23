@@ -1,0 +1,30 @@
+From a98a8754001f6e327bbd7c552792814d4324ea5d Mon Sep 17 00:00:00 2001
+From: boogie <boogiepop@gmx.com>
+Date: Mon, 21 Oct 2024 23:34:41 +0200
+Subject: [PATCH 361/364] dont interpret warnings as errors
+
+when building dkms, existing build makefiles and configs are used, since
+dkms modules are meant to be compiled against a variety of of compiler
+and kernel versions, one's warnning is not anothers. Disable
+interpreting warning as errors so that dkms modules can be compiled
+without paranoid errors
+---
+ debian.rockchip/config/config.common.ubuntu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index fa1f3433e0af..ec4f839a1cd6 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -27,7 +27,7 @@ CONFIG_THREAD_INFO_IN_TASK=y
+ #
+ CONFIG_INIT_ENV_ARG_LIMIT=32
+ # CONFIG_COMPILE_TEST is not set
+-CONFIG_WERROR=y
++CONFIG_WERROR=n
+ CONFIG_LOCALVERSION=""
+ # CONFIG_LOCALVERSION_AUTO is not set
+ CONFIG_BUILD_SALT=""
+-- 
+2.43.0
+

@@ -1,0 +1,27 @@
+From 685cba94b3618660b2a56de0b2cb9d0f6250cc13 Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Sun, 25 Aug 2024 03:48:13 -0400
+Subject: [PATCH 344/364] UBUNTU: Enable CAN and CANFD Rockchip drivers
+
+---
+ debian.rockchip/config/config.common.ubuntu | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/debian.rockchip/config/config.common.ubuntu b/debian.rockchip/config/config.common.ubuntu
+index 4682aad32bc1..ae4575cad5de 100644
+--- a/debian.rockchip/config/config.common.ubuntu
++++ b/debian.rockchip/config/config.common.ubuntu
+@@ -2712,8 +2712,8 @@ CONFIG_CAN_M_CAN=m
+ # CONFIG_CAN_M_CAN_PLATFORM is not set
+ # CONFIG_CAN_M_CAN_TCAN4X5X is not set
+ # CONFIG_CAN_PEAK_PCIEFD is not set
+-# CONFIG_CAN_ROCKCHIP is not set
+-# CONFIG_CANFD_ROCKCHIP is not set
++CONFIG_CAN_ROCKCHIP=m
++CONFIG_CANFD_ROCKCHIP=m
+ CONFIG_CANFD_RK3576=m
+ CONFIG_CAN_SJA1000=m
+ CONFIG_CAN_EMS_PCI=m
+-- 
+2.43.0
+

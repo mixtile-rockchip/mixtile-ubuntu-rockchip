@@ -1,0 +1,50 @@
+From 453cd99e5aa06d6402abae2d6d18ef0ac4194370 Mon Sep 17 00:00:00 2001
+From: Stephen Chen <stephen@radxa.com>
+Date: Mon, 27 May 2024 16:45:17 +0800
+Subject: [PATCH 291/364] arm64: cpuinfo: add cpu model
+
+Signed-off-by: Stephen Chen <stephen@radxa.com>
+(cherry picked from commit 903323ea5248cc56fdb5e23334c5baaad8b4eaac)
+Signed-off-by: Joshua Riek <jjriek@verizon.net>
+---
+ arch/arm64/kernel/cpuinfo.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
+index 91b351e18e3d..40f486e9e1f9 100644
+--- a/arch/arm64/kernel/cpuinfo.c
++++ b/arch/arm64/kernel/cpuinfo.c
+@@ -24,6 +24,7 @@
+ #include <linux/sched.h>
+ #include <linux/smp.h>
+ #include <linux/delay.h>
++#include <linux/of_platform.h>
+ 
+ unsigned int system_serial_low;
+ EXPORT_SYMBOL(system_serial_low);
+@@ -164,6 +165,9 @@ static const char *const compat_hwcap2_str[] = {
+ static int c_show(struct seq_file *m, void *v)
+ {
+ 	int i, j;
++	struct device_node *np;
++	const char *cpu_model;
++
+ 	bool compat = personality(current->personality) == PER_LINUX32 ||
+ 		      is_compat_task();
+ 
+@@ -218,6 +222,12 @@ static int c_show(struct seq_file *m, void *v)
+ 		}
+ 		seq_puts(m, "\n");
+ 
++		np = of_find_node_by_path("/system");
++		if (np) {
++			if (!of_property_read_string(np, "cpu,model", &cpu_model))
++				seq_printf(m, "cpu model\t: %s\n", cpu_model);
++			of_node_put(np);
++		}
+ 		seq_printf(m, "CPU implementer\t: 0x%02x\n",
+ 			   MIDR_IMPLEMENTOR(midr));
+ 		seq_printf(m, "CPU architecture: 8\n");
+-- 
+2.43.0
+

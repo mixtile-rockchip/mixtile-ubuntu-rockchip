@@ -1,6 +1,6 @@
-From fc6cd56c79a3dd3c7d4308e907d788585e4cf590 Mon Sep 17 00:00:00 2001
+From 7324517be0e73816fa3964b346d5d5f96f04533c Mon Sep 17 00:00:00 2001
 From: tom <1259233520@qq.com>
-Date: Tue, 22 Jul 2025 11:47:28 +0800
+Date: Wed, 23 Jul 2025 17:32:52 +0800
 Subject: [PATCH] arm64: dts: rockchip: Add rk3588-mixtile-blade3 support
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH] arm64: dts: rockchip: Add rk3588-mixtile-blade3 support
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts b/arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts
 new file mode 100644
-index 000000000..590d0b18f
+index 000000000..c261d6abb
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3588-mixtile-blade3.dts
 @@ -0,0 +1,1005 @@
@@ -33,14 +33,12 @@ index 000000000..590d0b18f
 +	compatible = "rockchip,rk3588-blade3-v101-linux", "rockchip,rk3588";
 +
 +	aliases {
-+		ethernet0 = &gmac0;
 +		mmc0 = &sdhci;
 +	};
 +
 +	chosen {
 +		stdout-path = "serial2:1500000n8";
 +	};
-+    /delete-node/ chosen;
 +
 +	pcie20_avdd0v85: pcie20-avdd0v85-regulator {
 +		compatible = "regulator-fixed";
@@ -190,6 +188,10 @@ index 000000000..590d0b18f
 +	status = "okay";
 +};
 +
++&combphy1_ps {
++	status = "okay";
++};
++
 +&combphy2_psu {
 +	status = "okay";
 +};
@@ -228,44 +230,43 @@ index 000000000..590d0b18f
 +
 +&gpu {
 +	mali-supply = <&vdd_gpu_s0>;
-+	sram-supply = <&vdd_gpu_mem_s0>;
 +	status = "okay";
 +};
 +
 +&i2c0 {
-+	status = "okay";
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&i2c0m2_xfer>;
++	status = "okay";
 +
 +	vdd_cpu_big0_s0: vdd_cpu_big0_mem_s0: rk8602@42 {
 +		compatible = "rockchip,rk8602";
 +		reg = <0x42>;
-+		vin-supply = <&vcc5v0_sys>;
-+		regulator-compatible = "rk860x-reg";
++		fcs,suspend-voltage-selector = <1>;
 +		regulator-name = "vdd_cpu_big0_s0";
++		regulator-always-on;
++		regulator-boot-on;
 +		regulator-min-microvolt = <550000>;
 +		regulator-max-microvolt = <1050000>;
 +		regulator-ramp-delay = <2300>;
-+		rockchip,suspend-voltage-selector = <1>;
-+		regulator-boot-on;
-+		regulator-always-on;
++		vin-supply = <&vcc5v0_sys>;
++
 +		regulator-state-mem {
 +			regulator-off-in-suspend;
 +		};
 +	};
 +
-+	vdd_cpu_big1_s0: vdd_cpu_big1_mem_s0: rk8603@43 {
-+		compatible = "rockchip,rk8603";
++	vdd_cpu_big1_s0: regulator@43 {
++		compatible = "rockchip,rk8603", "rockchip,rk8602";
 +		reg = <0x43>;
-+		vin-supply = <&vcc5v0_sys>;
-+		regulator-compatible = "rk860x-reg";
++		fcs,suspend-voltage-selector = <1>;
 +		regulator-name = "vdd_cpu_big1_s0";
++		regulator-always-on;
++		regulator-boot-on;
 +		regulator-min-microvolt = <550000>;
 +		regulator-max-microvolt = <1050000>;
 +		regulator-ramp-delay = <2300>;
-+		rockchip,suspend-voltage-selector = <1>;
-+		regulator-boot-on;
-+		regulator-always-on;
++		vin-supply = <&vcc5v0_sys>;
++
 +		regulator-state-mem {
 +			regulator-off-in-suspend;
 +		};
@@ -368,7 +369,6 @@ index 000000000..590d0b18f
 +&i2c6 { // USB Type-C 0
 +	status = "okay";
 +	pinctrl-0 = <&i2c6m0_xfer>;
-+
 +	usbc0: fusb302@22 {
 +		compatible = "fcs,fusb302";
 +		reg = <0x22>;
@@ -466,25 +466,6 @@ index 000000000..590d0b18f
 +};
 +
 +&pinctrl {
-+	rtl8111 {
-+		rtl8111_isolate: rtl8111-isolate {
-+			rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+	};
-+
-+	rtl8211f {
-+		rtl8211f_rst: rtl8211f-rst {
-+			rockchip,pins = <4 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+
-+	};
-+
-+	hym8563 {
-+		hym8563_int: hym8563-int {
-+			rockchip,pins = <0 RK_PD4 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+	};
-+
 +	pcie2 {
 +		pcie2_1_rst: pcie2-1-rst {
 +			rockchip,pins = <4 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>;
@@ -565,11 +546,10 @@ index 000000000..590d0b18f
 +	no-sdio;
 +	no-sd;
 +	non-removable;
-+	mmc-hs400-1_8v;
-+	mmc-hs400-enhanced-strobe;
++	//mmc-hs400-1_8v;
++	//mmc-hs400-enhanced-strobe;
 +	status = "okay";
 +};
-+
 +
 +&sdmmc {
 +	max-frequency = <200000000>;
@@ -578,6 +558,7 @@ index 000000000..590d0b18f
 +	bus-width = <4>;
 +	cap-mmc-highspeed;
 +	cap-sd-highspeed;
++	cd-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_LOW>;
 +	disable-wp;
 +	sd-uhs-sdr104;
 +	vmmc-supply = <&vcc_3v3_s3>;
@@ -595,15 +576,16 @@ index 000000000..590d0b18f
 +
 +	pmic@0 {
 +		compatible = "rockchip,rk806";
++		spi-max-frequency = <1000000>;
 +		reg = <0x0>;
-+		#gpio-cells = <2>;
-+		gpio-controller;
++
 +		interrupt-parent = <&gpio0>;
 +		interrupts = <7 IRQ_TYPE_LEVEL_LOW>;
++
++		pinctrl-names = "default";
 +		pinctrl-0 = <&pmic_pins>, <&rk806_dvs1_null>,
 +			    <&rk806_dvs2_null>, <&rk806_dvs3_null>;
-+		pinctrl-names = "default";
-+		spi-max-frequency = <1000000>;
++
 +		system-power-controller;
 +
 +		vcc1-supply = <&vcc5v0_sys>;
@@ -622,6 +604,9 @@ index 000000000..590d0b18f
 +		vcc14-supply = <&vcc_1v1_nldo_s3>;
 +		vcca-supply = <&vcc5v0_sys>;
 +
++		gpio-controller;
++		#gpio-cells = <2>;
++
 +		rk806_dvs1_null: dvs1-null-pins {
 +			pins = "gpio_pwrctrl1";
 +			function = "pin_fun0";
@@ -637,7 +622,6 @@ index 000000000..590d0b18f
 +			function = "pin_fun0";
 +		};
 +
-+
 +		regulators {
 +			vdd_gpu_s0: vdd_gpu_mem_s0: dcdc-reg1 {
 +				regulator-boot-on;
@@ -646,6 +630,7 @@ index 000000000..590d0b18f
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_gpu_s0";
 +				regulator-enable-ramp-delay = <400>;
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -654,11 +639,11 @@ index 000000000..590d0b18f
 +			vdd_cpu_lit_s0: vdd_cpu_lit_mem_s0: dcdc-reg2 {
 +				regulator-always-on;
 +				regulator-boot-on;
-+				regulator-init-microvolt = <800000>;
 +				regulator-min-microvolt = <550000>;
 +				regulator-max-microvolt = <950000>;
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_cpu_lit_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -671,23 +656,24 @@ index 000000000..590d0b18f
 +				regulator-max-microvolt = <750000>;
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_log_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +					regulator-suspend-microvolt = <750000>;
 +				};
 +			};
 +
-+			vdd_vdenc_s0: dcdc-reg4 {
++			vdd_vdenc_s0: vdd_vdenc_mem_s0: dcdc-reg4 {
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-min-microvolt = <550000>;
 +				regulator-max-microvolt = <950000>;
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_vdenc_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
-+
 +			};
 +
 +			vdd_ddr_s0: dcdc-reg5 {
@@ -697,6 +683,7 @@ index 000000000..590d0b18f
 +				regulator-max-microvolt = <900000>;
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_ddr_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +					regulator-suspend-microvolt = <850000>;
@@ -707,6 +694,7 @@ index 000000000..590d0b18f
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-name = "vdd2_ddr_s3";
++
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
 +				};
@@ -719,6 +707,7 @@ index 000000000..590d0b18f
 +				regulator-max-microvolt = <2000000>;
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_2v0_pldo_s3";
++
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
 +					regulator-suspend-microvolt = <2000000>;
@@ -731,6 +720,7 @@ index 000000000..590d0b18f
 +				regulator-min-microvolt = <3300000>;
 +				regulator-max-microvolt = <3300000>;
 +				regulator-name = "vcc_3v3_s3";
++
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
 +					regulator-suspend-microvolt = <3300000>;
@@ -741,6 +731,7 @@ index 000000000..590d0b18f
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-name = "vddq_ddr_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -752,6 +743,7 @@ index 000000000..590d0b18f
 +				regulator-min-microvolt = <1800000>;
 +				regulator-max-microvolt = <1800000>;
 +				regulator-name = "vcc_1v8_s3";
++
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
 +					regulator-suspend-microvolt = <1800000>;
@@ -763,8 +755,8 @@ index 000000000..590d0b18f
 +				regulator-boot-on;
 +				regulator-min-microvolt = <1800000>;
 +				regulator-max-microvolt = <1800000>;
-+				regulator-ramp-delay = <12500>;
 +				regulator-name = "avcc_1v8_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -775,10 +767,10 @@ index 000000000..590d0b18f
 +				regulator-boot-on;
 +				regulator-min-microvolt = <1800000>;
 +				regulator-max-microvolt = <1800000>;
-+				regulator-ramp-delay = <12500>;
 +				regulator-name = "vcc_1v8_s0";
++
 +				regulator-state-mem {
-+					regulator-on-in-suspend;
++					regulator-off-in-suspend;
 +					regulator-suspend-microvolt = <1800000>;
 +				};
 +			};
@@ -789,6 +781,7 @@ index 000000000..590d0b18f
 +				regulator-min-microvolt = <1200000>;
 +				regulator-max-microvolt = <1200000>;
 +				regulator-name = "avdd_1v2_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -799,7 +792,9 @@ index 000000000..590d0b18f
 +				regulator-boot-on;
 +				regulator-min-microvolt = <3300000>;
 +				regulator-max-microvolt = <3300000>;
++				regulator-ramp-delay = <12500>;
 +				regulator-name = "vcc_3v3_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -812,6 +807,7 @@ index 000000000..590d0b18f
 +				regulator-max-microvolt = <3300000>;
 +				regulator-ramp-delay = <12500>;
 +				regulator-name = "vccio_sd_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -823,6 +819,7 @@ index 000000000..590d0b18f
 +				regulator-min-microvolt = <1800000>;
 +				regulator-max-microvolt = <1800000>;
 +				regulator-name = "pldo6_s3";
++
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
 +					regulator-suspend-microvolt = <1800000>;
@@ -834,8 +831,8 @@ index 000000000..590d0b18f
 +				regulator-boot-on;
 +				regulator-min-microvolt = <750000>;
 +				regulator-max-microvolt = <750000>;
-+				regulator-ramp-delay = <12500>;
 +				regulator-name = "vdd_0v75_s3";
++
 +				regulator-state-mem {
 +					regulator-on-in-suspend;
 +					regulator-suspend-microvolt = <750000>;
@@ -848,6 +845,7 @@ index 000000000..590d0b18f
 +				regulator-min-microvolt = <850000>;
 +				regulator-max-microvolt = <850000>;
 +				regulator-name = "vdd_ddr_pll_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +					regulator-suspend-microvolt = <850000>;
@@ -857,9 +855,10 @@ index 000000000..590d0b18f
 +			avdd_0v75_s0: nldo-reg3 {
 +				regulator-always-on;
 +				regulator-boot-on;
-+				regulator-min-microvolt = <837500>;
-+				regulator-max-microvolt = <837500>;
++				regulator-min-microvolt = <750000>;
++				regulator-max-microvolt = <750000>;
 +				regulator-name = "avdd_0v75_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};
@@ -871,6 +870,7 @@ index 000000000..590d0b18f
 +				regulator-min-microvolt = <850000>;
 +				regulator-max-microvolt = <850000>;
 +				regulator-name = "vdd_0v85_s0";
++
 +				regulator-state-mem {
 +					regulator-off-in-suspend;
 +				};

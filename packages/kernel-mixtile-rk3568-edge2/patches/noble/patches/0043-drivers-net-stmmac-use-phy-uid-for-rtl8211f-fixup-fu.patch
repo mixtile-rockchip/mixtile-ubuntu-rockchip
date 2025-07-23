@@ -1,0 +1,47 @@
+From c61ed8931f6b90b1d7214c77cb185aea13fc2104 Mon Sep 17 00:00:00 2001
+From: Feng Zhang <feng@radxa.com>
+Date: Mon, 18 Sep 2023 19:16:26 +0800
+Subject: [PATCH 306/364] drivers/net: stmmac: use phy uid for rtl8211f fixup
+ function
+
+Signed-off-by: Feng Zhang <feng@radxa.com>
+(cherry picked from commit f2c9b315fbc62b66e0e22dd2143733c768b387d7)
+Signed-off-by: Joshua Riek <jjriek@verizon.net>
+---
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index a67718bca6cb..73fedb7dde71 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -60,8 +60,8 @@
+ #define	STMMAC_ALIGN(x)		ALIGN(ALIGN(x, SMP_CACHE_BYTES), 16)
+ #define	TSO_MAX_BUFF_SIZE	(SZ_16K - 1)
+ 
+-#define	RTL8211F_PHY_ID		0x001cc916
+-#define	RTL8211F_PHY_ID_MASK	0x001fffff
++#define	RTL8211F_PHY_UID	0x001cc800
++#define	RTL8211F_PHY_UID_MASK	0x001ffc00
+ #define	RTL8211F_PAGE_SELECT	0x1f
+ #define	RTL8211F_LCR_ADDR	0x10
+ #define	RTL8211F_EEELCR_ADDR	0x11
+@@ -7428,13 +7428,13 @@ int stmmac_dvr_probe(struct device *device,
+ 	pm_runtime_put(device);
+ 
+ 	/* Register fixup for PHY RTL8211F */
+-	ret = phy_register_fixup_for_uid(RTL8211F_PHY_ID, RTL8211F_PHY_ID_MASK, phy_rtl8211f_led_fixup);
++	ret = phy_register_fixup_for_uid(RTL8211F_PHY_UID, RTL8211F_PHY_UID_MASK, phy_rtl8211f_led_fixup);
+ 	if (ret) {
+ 		dev_warn(priv->device, "Failed to register fixup for PHY RTL8211F.\n");
+ 	}
+ 
+ 	/* Register fixup for PHY RTL8211F disabling EEE */
+-	ret = phy_register_fixup_for_uid(RTL8211F_PHY_ID, RTL8211F_PHY_ID_MASK, phy_rtl8211f_eee_fixup);
++	ret = phy_register_fixup_for_uid(RTL8211F_PHY_UID, RTL8211F_PHY_UID_MASK, phy_rtl8211f_eee_fixup);
+ 	if (ret) {
+ 		dev_warn(priv->device, "Failed to register fixup for PHY RTL8211F disabling EEE.\n");
+ 	}
+-- 
+2.43.0
+

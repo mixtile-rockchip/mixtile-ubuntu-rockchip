@@ -1,0 +1,45 @@
+From a2d0e7d7ee5a529803a6cd1fc9674ad9a3a1f7d0 Mon Sep 17 00:00:00 2001
+From: Joshua Riek <jjriek@verizon.net>
+Date: Tue, 13 Aug 2024 17:02:08 -0400
+Subject: [PATCH 262/262] UBUNTU: Ubuntu-rockchip-5.10.0-1012.12
+
+---
+ debian.rockchip/abi/abiname | 2 +-
+ debian.rockchip/abi/version | 2 +-
+ debian.rockchip/changelog   | 7 +++++++
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/debian.rockchip/abi/abiname b/debian.rockchip/abi/abiname
+index 9f1d48efca0e..f5d273e5860e 100644
+--- a/debian.rockchip/abi/abiname
++++ b/debian.rockchip/abi/abiname
+@@ -1,2 +1,2 @@
+-11
++12
+ 
+diff --git a/debian.rockchip/abi/version b/debian.rockchip/abi/version
+index 598fcea3e925..fb4e939e4b9a 100644
+--- a/debian.rockchip/abi/version
++++ b/debian.rockchip/abi/version
+@@ -1,2 +1,2 @@
+-5.10.0-1011.11
++5.10.0-1012.12
+ 
+diff --git a/debian.rockchip/changelog b/debian.rockchip/changelog
+index dd2b3e45fe6c..aa5a7b633b9d 100644
+--- a/debian.rockchip/changelog
++++ b/debian.rockchip/changelog
+@@ -1,3 +1,10 @@
++linux-rockchip (5.10.0-1012.12) jammy; urgency=medium
++
++  * UBUNTU: Replace grub from recommends with u-boot-menu
++  * UBUNTU: Enable BPF tools
++
++ -- Joshua Riek <jjriek@verizon.net>  Tue, 13 Aug 2024 17:01:02 -0400
++
+ linux-rockchip (5.10.0-1011.11) jammy; urgency=medium
+ 
+   * arm64: dts: rockchip: Add support for the ArmSoM AIM7
+-- 
+2.43.0
+
