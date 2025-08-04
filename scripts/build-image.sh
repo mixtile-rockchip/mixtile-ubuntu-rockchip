@@ -157,10 +157,11 @@ trap '' EXIT
 
 # build RK format Image
 rkimg="../images/$(basename "${rootfs}" .rootfs.tar)${KVER}-rockchip-format.img"
+rkchip=$(echo "${BOARD_SOC}" | grep -o 'RK[0-9]\+')
 pushd rkimage
 dd if=../${img} of=Image/rootfs.img skip=32768 conv=notrunc
 qemu-x86_64-static ./afptool -pack ./ Image/update.img
-qemu-x86_64-static ./rkImageMaker -RK3588 Image/MiniLoaderAll.bin Image/update.img ../${rkimg} -os_type:androidos
+qemu-x86_64-static ./rkImageMaker -${rkchip} Image/MiniLoaderAll.bin Image/update.img ../${rkimg} -os_type:androidos
 rm -rf Image/update.img
 xz -6 --force --keep --quiet --threads=0 "../${rkimg}"
 sha256sum "../${rkimg}.xz" > "../${rkimg}.xz.sha256"
