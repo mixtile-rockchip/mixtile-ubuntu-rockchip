@@ -1,4 +1,4 @@
-GIT=https://github.com/mixtile-rockchip/u-boot.git
-COMMIT=2687dce2617032930f2c43fef349bdea694c6f68
+GIT=https://github.com/radxa/u-boot.git
+COMMIT=609a77ef6e99c56aacd4b8d8f9c3056378f9c761
 BRANCH=next-dev
-VERSION=2017.09+20240806.gitf73b1eed
+VERSION=2017.09+20230920.git609a77ef
