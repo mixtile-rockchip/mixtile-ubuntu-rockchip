@@ -1,16 +1,16 @@
-From fd5cc5f120a0523110ae24086f6e423d3ba1bd55 Mon Sep 17 00:00:00 2001
+From 425bc542686201007d9418372e08e6e152d72483 Mon Sep 17 00:00:00 2001
 From: tom <1259233520@qq.com>
-Date: Wed, 23 Jul 2025 10:45:44 +0800
-Subject: [PATCH] Add Mixtile edge2 DTS
+Date: Tue, 5 Aug 2025 18:36:19 +0800
+Subject: [PATCH] add mixtile edge2 dts
 
 ---
  arch/arm64/boot/dts/rockchip/Makefile         |    1 +
- .../dts/rockchip/rk3568-mixtile-edge2.dts     | 1194 +++++++++++++++++
- 2 files changed, 1195 insertions(+)
+ .../dts/rockchip/rk3568-mixtile-edge2.dts     | 1200 +++++++++++++++++
+ 2 files changed, 1201 insertions(+)
  create mode 100644 arch/arm64/boot/dts/rockchip/rk3568-mixtile-edge2.dts
 
 diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-index e87237400..06bc2bab3 100644
+index e8723740039e..06bc2bab3764 100644
 --- a/arch/arm64/boot/dts/rockchip/Makefile
 +++ b/arch/arm64/boot/dts/rockchip/Makefile
 @@ -351,5 +351,6 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-aio-3588l.dtb
@@ -22,10 +22,10 @@ index e87237400..06bc2bab3 100644
  subdir-y := $(dts-dirs) overlay
 diff --git a/arch/arm64/boot/dts/rockchip/rk3568-mixtile-edge2.dts b/arch/arm64/boot/dts/rockchip/rk3568-mixtile-edge2.dts
 new file mode 100644
-index 000000000..afc2be615
+index 000000000000..cbf9d222ebec
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3568-mixtile-edge2.dts
-@@ -0,0 +1,1194 @@
+@@ -0,0 +1,1200 @@
 +/dts-v1/;
 +#include <dt-bindings/gpio/gpio.h>
 +#include <dt-bindings/pwm/pwm.h>
@@ -1001,6 +1001,12 @@ index 000000000..afc2be615
 +&rknpu {
 +	rknpu-supply = <&vdd_npu>;
 +	status = "okay";
++};
++
++&power {
++	power-domain@RK3568_PD_NPU {
++		status = "disabled";
++	};
 +};
 +
 +&rknpu_mmu {

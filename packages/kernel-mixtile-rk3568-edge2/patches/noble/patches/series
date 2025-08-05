@@ -73,3 +73,4 @@
 0082-revert_g21p0_to_g18p0.patch
 0083-fix-gpu-build-error.patch
 0084-add-vendor-storage-mac-support.patch
+0085-disabled-npu-power.patch
