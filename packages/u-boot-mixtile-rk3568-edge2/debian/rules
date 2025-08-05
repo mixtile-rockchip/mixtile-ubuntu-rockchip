@@ -33,6 +33,7 @@ ${u-boot-rockchip_platforms}:
 	@cp arch/arm/mach-rockchip/decode_bl31.py debian/build/$@/arch/arm/mach-rockchip/decode_bl31.py
 
 	@cp debian/rkbin/$($@_bl31) debian/build/$@/bl31.elf
+	@cp debian/rkbin/$($@_bl32) debian/build/$@/tee.bin
 
 	make O=debian/build/$@ \
 	  CROSS_COMPILE=$(CROSS_COMPILE) \
@@ -45,6 +46,8 @@ ${u-boot-rockchip_platforms}:
 	./debian/build/$@/tools/mkimage -n rk3568 -T rksd -d \
 	  debian/rkbin/$($@_ddr):debian/build/$@/spl/u-boot-spl.bin \
 	  debian/build/$@/idbloader.img
+
+	./debian/build/$@/tools/mkimage -f debian/build/$@/u-boot.its -E debian/build/$@/u-boot.itb
 
 	@dd if=/dev/zero of=debian/build/$@/rkspi_loader.img bs=1M count=0 seek=16
 	@parted -s debian/build/$@/rkspi_loader.img mklabel gpt
