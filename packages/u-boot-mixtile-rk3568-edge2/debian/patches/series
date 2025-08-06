@@ -2,5 +2,4 @@
 0002-Add-Mixtile-edge2.patch
 0003-fix-gcc13-compile-error.patch
 0004-fix-noble-compile-error.patch
-0005-Revert-rockchip-resource-Add-avb-verify.patch
-0006-Remove-support-for-bootable-partition-booting-only.patch
+0005-Remove-support-for-bootable-partition-booting-only.patch
