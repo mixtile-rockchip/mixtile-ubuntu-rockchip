@@ -29,7 +29,7 @@ function config_image_hook__mixtile-edge2() {
     fi
 
     cp -r ../packages/libmali/libmali-bifrost-g52-g24p0-x11-wayland-gbm_1.9-1_arm64.deb ${rootfs}/tmp
-    chroot "${rootfs}" dpkg -i /tmp/libmali-bifrost-g52-g24p0-x11-wayland-gbm_1.9-1_arm64.deb
+    chroot "${rootfs}" apt install -y /tmp/libmali-bifrost-g52-g24p0-x11-wayland-gbm_1.9-1_arm64.deb
 
     chroot "${rootfs}" systemctl disable casper-md5check.service
     chroot "${rootfs}" systemctl mask casper-md5check.service
