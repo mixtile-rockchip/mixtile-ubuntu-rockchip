@@ -49,7 +49,7 @@ index 000000000000..cbf9d222ebec
 +			gpios = <&gpio0 RK_PC0 GPIO_ACTIVE_HIGH>;
 +			linux,default-trigger = "heartbeat";
 +		};
-+			
++
 +	};
 +
 +	keys: gpio-keys {

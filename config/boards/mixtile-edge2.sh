@@ -28,6 +28,9 @@ function config_image_hook__mixtile-edge2() {
         chroot "${rootfs}" apt-get -y install camera-engine-rkaiq-rk3588
     fi
 
+    cp -r ../packages/libmali/libmali-bifrost-g52-g24p0-x11-wayland-gbm_1.9-1_arm64.deb ${rootfs}/tmp
+    chroot "${rootfs}" dpkg -i /tmp/libmali-bifrost-g52-g24p0-x11-wayland-gbm_1.9-1_arm64.deb
+
     cp ${overlay_dir}/usr/bin/vendor_storage ${rootfs}/usr/bin/vendor_storage
     cp -r ../packages/adb/rockchip-adbd.deb ${rootfs}/tmp
     chroot "${rootfs}" dpkg -i /tmp/rockchip-adbd.deb
