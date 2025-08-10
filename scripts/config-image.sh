@@ -165,6 +165,14 @@ chroot ${chroot_dir} apt-get -y clean
 chroot ${chroot_dir} apt-get -y autoclean
 chroot ${chroot_dir} apt-get -y autoremove
 
+# disable casper-md5check
+chroot "$chroot_dir" /bin/bash <<'EOF'
+systemctl disable casper-md5check.service 2>/dev/null || true
+systemctl mask casper-md5check.service 2>/dev/null || true
+rm -f /etc/systemd/system/multi-user.target.wants/casper-md5check.service
+rm -f /lib/systemd/system/casper-md5check.service
+EOF
+
 # Umount the root filesystem
 teardown_mountpoint $chroot_dir
 
