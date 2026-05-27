@@ -26,7 +26,7 @@ if [ -d ${path} ] && [ ! -L ${path} ]; then
     rm -rf ${path}
 fi
 
-path="/usr/lib/u-boot-mixtile-rk3588/"
+path="/usr/lib/u-boot-mixtile-rk3588-core3588e-v2-nano/"
 if [ -d ${path} ] && [ ! -L ${path} ]; then
     rm -rf ${path}
 fi

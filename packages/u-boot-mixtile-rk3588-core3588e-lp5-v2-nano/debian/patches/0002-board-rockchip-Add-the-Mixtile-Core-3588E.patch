@@ -4,17 +4,17 @@ Date: Sun, 17 Dec 2023 09:41:43 -0500
 Subject: [PATCH 02/14] board: rockchip: Add the Mixtile Core 3588E
 
 ---
- arch/arm/dts/rk3588-mixtile-core3588e-v2-nano.dts  |  60 ++++++
- configs/mixtile-core3588e-v2-nano-rk3588_defconfig | 236 +++++++++++++++++++++
+ arch/arm/dts/rk3588-mixtile-core3588e-lp5-v2-nano.dts  |  60 ++++++
+ configs/mixtile-core3588e-lp5-v2-nano-rk3588_defconfig | 236 +++++++++++++++++++++
  2 files changed, 296 insertions(+)
- create mode 100644 arch/arm/dts/rk3588-mixtile-core3588e-v2-nano.dts
- create mode 100644 configs/mixtile-core3588e-v2-nano-rk3588_defconfig
+ create mode 100644 arch/arm/dts/rk3588-mixtile-core3588e-lp5-v2-nano.dts
+ create mode 100644 configs/mixtile-core3588e-lp5-v2-nano-rk3588_defconfig
 
-diff --git a/arch/arm/dts/rk3588-mixtile-core3588e-v2-nano.dts b/arch/arm/dts/rk3588-mixtile-core3588e-v2-nano.dts
+diff --git a/arch/arm/dts/rk3588-mixtile-core3588e-lp5-v2-nano.dts b/arch/arm/dts/rk3588-mixtile-core3588e-lp5-v2-nano.dts
 new file mode 100644
 index 00000000000..7b1f46aa686
 --- /dev/null
-+++ b/arch/arm/dts/rk3588-mixtile-core3588e-v2-nano.dts
++++ b/arch/arm/dts/rk3588-mixtile-core3588e-lp5-v2-nano.dts
 @@ -0,0 +1,60 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
@@ -76,11 +76,11 @@ index 00000000000..7b1f46aa686
 +&u2phy0_otg {
 +	status = "okay";
 +};
-diff --git a/configs/mixtile-core3588e-v2-nano-rk3588_defconfig b/configs/mixtile-core3588e-v2-nano-rk3588_defconfig
+diff --git a/configs/mixtile-core3588e-lp5-v2-nano-rk3588_defconfig b/configs/mixtile-core3588e-lp5-v2-nano-rk3588_defconfig
 new file mode 100644
 index 00000000000..e455b0b5dca
 --- /dev/null
-+++ b/configs/mixtile-core3588e-v2-nano-rk3588_defconfig
++++ b/configs/mixtile-core3588e-lp5-v2-nano-rk3588_defconfig
 @@ -0,0 +1,236 @@
 +CONFIG_ARM=y
 +CONFIG_ARCH_ROCKCHIP=y
@@ -105,7 +105,7 @@ index 00000000000..e455b0b5dca
 +CONFIG_SPL_LIBDISK_SUPPORT=y
 +CONFIG_SPL_SPI_FLASH_SUPPORT=y
 +CONFIG_SPL_SPI_SUPPORT=y
-+CONFIG_DEFAULT_DEVICE_TREE="rk3588-mixtile-core3588e-v2-nano"
++CONFIG_DEFAULT_DEVICE_TREE="rk3588-mixtile-core3588e-lp5-v2-nano"
 +CONFIG_DEBUG_UART=y
 +CONFIG_FIT=y
 +CONFIG_FIT_IMAGE_POST_PROCESS=y

@@ -101,10 +101,15 @@ aio-3588l-rk3588_ddr := rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin
 aio-3588l-rk3588_bl31 := rk3588_bl31_v1.45.elf
 aio-3588l-rk3588_pkg := aio-3588l
 
-u-boot-rockchip_platforms += mixtile-core3588e-rk3588
-mixtile-core3588e-rk3588_ddr := rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin
-mixtile-core3588e-rk3588_bl31 := rk3588_bl31_v1.45.elf
-mixtile-core3588e-rk3588_pkg := mixtile-core3588e
+u-boot-rockchip_platforms += mixtile-core3588e-lp4-rk3588
+mixtile-core3588e-lp4-rk3588_ddr := rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin
+mixtile-core3588e-lp4-rk3588_bl31 := rk3588_bl31_v1.45.elf
+mixtile-core3588e-lp4-rk3588_pkg := mixtile-core3588e-lp4
+
+u-boot-rockchip_platforms += mixtile-core3588e-lp5-v2-nano-rk3588
+mixtile-core3588e-lp5-v2-nano-rk3588_ddr := rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin
+mixtile-core3588e-lp5-v2-nano-rk3588_bl31 := rk3588_bl31_v1.45.elf
+mixtile-core3588e-lp5-v2-nano-rk3588_pkg := mixtile-core3588e-lp5-v2-nano
 
 u-boot-rockchip_platforms += orangepi-cm5-rk3588s
 orangepi-cm5-rk3588s_ddr := rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin
