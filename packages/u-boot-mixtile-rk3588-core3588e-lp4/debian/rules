@@ -25,7 +25,48 @@ ${u-boot-rockchip_platforms}:
 	  $@_defconfig
 
 	@touch .scmversion
-	@sed -i 's/CONFIG_BOOTDELAY=.*/CONFIG_BOOTDELAY=2/g' debian/build/$@/.config
+	@if [ "$(SECURE_BOOT)" = "1" ]; then \
+	  cfg=debian/build/$@/.config; \
+	  if grep -q '^CONFIG_FIT_SIGNATURE=' $$cfg; then \
+	    sed -i 's/^CONFIG_FIT_SIGNATURE=.*/CONFIG_FIT_SIGNATURE=y/' $$cfg; \
+	  elif grep -q '^# CONFIG_FIT_SIGNATURE is not set' $$cfg; then \
+	    sed -i 's/^# CONFIG_FIT_SIGNATURE is not set/CONFIG_FIT_SIGNATURE=y/' $$cfg; \
+	  else \
+	    echo 'CONFIG_FIT_SIGNATURE=y' >> $$cfg; \
+	  fi; \
+	  if grep -q '^CONFIG_SPL_FIT_SIGNATURE=' $$cfg; then \
+	    sed -i 's/^CONFIG_SPL_FIT_SIGNATURE=.*/CONFIG_SPL_FIT_SIGNATURE=y/' $$cfg; \
+	  elif grep -q '^# CONFIG_SPL_FIT_SIGNATURE is not set' $$cfg; then \
+	    sed -i 's/^# CONFIG_SPL_FIT_SIGNATURE is not set/CONFIG_SPL_FIT_SIGNATURE=y/' $$cfg; \
+	  else \
+	    echo 'CONFIG_SPL_FIT_SIGNATURE=y' >> $$cfg; \
+	  fi; \
+	  if grep -q '^CONFIG_USE_BOOTARGS=' $$cfg; then \
+	    sed -i 's/^CONFIG_USE_BOOTARGS=.*/CONFIG_USE_BOOTARGS=y/' $$cfg; \
+	  else \
+	    echo 'CONFIG_USE_BOOTARGS=y' >> $$cfg; \
+	  fi; \
+	  if grep -q '^CONFIG_BOOTARGS=' $$cfg; then \
+	    sed -i 's/^CONFIG_BOOTARGS=.*/CONFIG_BOOTARGS=""/' $$cfg; \
+	  else \
+	    echo 'CONFIG_BOOTARGS=""' >> $$cfg; \
+	  fi; \
+	  if grep -q '^CONFIG_ENV_IS_NOWHERE=' $$cfg; then \
+	    sed -i 's/^CONFIG_ENV_IS_NOWHERE=.*/CONFIG_ENV_IS_NOWHERE=y/' $$cfg; \
+	  else \
+	    echo 'CONFIG_ENV_IS_NOWHERE=y' >> $$cfg; \
+	  fi; \
+	  sed -i 's/CONFIG_BOOTDELAY=.*/CONFIG_BOOTDELAY=0/g' $$cfg; \
+	  make O=debian/build/$@ ARCH=arm olddefconfig; \
+	  grep -q '^CONFIG_FIT_SIGNATURE=y' $$cfg; \
+	  grep -q '^CONFIG_SPL_FIT_SIGNATURE=y' $$cfg; \
+	  grep -q '^CONFIG_USE_BOOTARGS=y' $$cfg; \
+	  grep -q '^CONFIG_BOOTARGS=""' $$cfg; \
+	  grep -q '^CONFIG_ENV_IS_NOWHERE=y' $$cfg; \
+	  grep -q '^CONFIG_SPL_ROCKCHIP_SECURE_OTP=y' $$cfg; \
+	else \
+	  sed -i 's/CONFIG_BOOTDELAY=.*/CONFIG_BOOTDELAY=2/g' debian/build/$@/.config; \
+	fi
 	@sed -i 's/CONFIG_DISABLE_CONSOLE=y/CONFIG_DISABLE_CONSOLE=n/g' debian/build/$@/.config
 	@sed -i 's/CONFIG_LOCALVERSION=""/CONFIG_LOCALVERSION=""/g' debian/build/$@/.config
 
@@ -42,9 +83,63 @@ ${u-boot-rockchip_platforms}:
 	  BL31=../../../debian/rkbin/$($@_bl31) \
 	  spl/u-boot-spl.bin u-boot.dtb u-boot.itb
 
-	./debian/build/$@/tools/mkimage -n rk3588 -T rksd -d \
-	  debian/rkbin/$($@_ddr):debian/build/$@/spl/u-boot-spl.bin \
-	  debian/build/$@/idbloader.img
+	# Build the host image tools explicitly; the firmware targets do not
+	# necessarily build fit_check_sign.
+	make O=debian/build/$@ CROSS_COMPILE=$(CROSS_COMPILE) ARCH=arm tools
+
+	@set -e; \
+	srctree="$(CURDIR)"; \
+	build="$(CURDIR)/debian/build/$@"; \
+	ddr="$(CURDIR)/debian/rkbin/$($@_ddr)"; \
+	[ -f "$$ddr" ] || { echo "Missing DDR blob $$ddr" >&2; exit 1; }; \
+	if [ "$(SECURE_BOOT)" = "1" ]; then \
+	  keydir="$(SECURE_BOOT_KEY_DIR)"; \
+	  rkbin="$(RKBIN_TOOLS_DIR)"; \
+	  rkbin_dir="$(RKBIN_DIR)"; \
+	  [ -n "$$keydir" ] || { echo "SECURE_BOOT_KEY_DIR is not set" >&2; exit 1; }; \
+	  for f in dev.key dev.pubkey dev.crt; do \
+	    [ -f "$$keydir/$$f" ] || { echo "Missing $$keydir/$$f" >&2; exit 1; }; \
+	  done; \
+	  [ -n "$$rkbin" ] && [ -x "$$rkbin/rk_sign_tool" ] || \
+	    { echo "RKBIN_TOOLS_DIR has no rk_sign_tool" >&2; exit 1; }; \
+	  [ -n "$$rkbin_dir" ] && [ -f "$$rkbin_dir/RKBOOT/RK3588MINIALL.ini" ] || \
+	    { echo "RKBIN_DIR does not contain RKBOOT/RK3588MINIALL.ini" >&2; exit 1; }; \
+	  if grep -Eq '^[[:space:]]*sign_flag[[:space:]]*=[[:space:]]*0x20' "$$rkbin/setting.ini"; then \
+	    echo "ERROR: rk_sign_tool sign_flag=0x20 must not be enabled" >&2; exit 1; \
+	  fi; \
+	  cd "$$build"; \
+	  if fdtget -l u-boot.dtb /signature >/dev/null 2>&1; then fdtput -r u-boot.dtb /signature; fi; \
+	  ./tools/mkimage -f u-boot.its -k "$$keydir" -K u-boot.dtb -E -p 0x1000 -r u-boot.itb; \
+	  if fdtget -l spl/u-boot-spl.dtb /signature >/dev/null 2>&1; then fdtput -r spl/u-boot-spl.dtb /signature; fi; \
+	  ./tools/mkimage -f u-boot.its -k "$$keydir" -K spl/u-boot-spl.dtb -E -p 0x1000 -r u-boot.itb; \
+	  ./tools/fit_check_sign -f u-boot.itb -k spl/u-boot-spl.dtb -s; \
+	  test "$$(fdtget -t s u-boot.dtb /signature/key-dev required)" = conf; \
+	  test "$$(fdtget -t s spl/u-boot-spl.dtb /signature/key-dev required)" = conf; \
+	  if fdtget -t x u-boot.dtb /signature/key-dev burn-key-hash >/dev/null 2>&1; then \
+	    echo "ERROR: burn-key-hash must not be set in u-boot.dtb" >&2; exit 1; \
+	  fi; \
+	  fdtput -t x spl/u-boot-spl.dtb /signature/key-dev burn-key-hash 1; \
+	  test "$$(fdtget -t x spl/u-boot-spl.dtb /signature/key-dev burn-key-hash)" = 1; \
+	  cat spl/u-boot-spl-nodtb.bin spl/u-boot-spl.dtb > spl/u-boot-spl.bin; \
+	  ./tools/mkimage -n rk3588 -T rksd -d "$$ddr:spl/u-boot-spl.bin" idbloader.img; \
+	  ( cd "$$rkbin" \
+	    && ./rk_sign_tool cc --chip 3588 \
+	    && ./rk_sign_tool lk --key "$$keydir/dev.key" --pubkey "$$keydir/dev.pubkey" \
+	    && ./rk_sign_tool sb --idb "$$build/idbloader.img" \
+	    && ./rk_sign_tool vb --idb "$$build/idbloader.img" ); \
+	  ( cd "$$rkbin_dir" && \
+	    "$$srctree/scripts/spl.sh" --ini "$$rkbin_dir/RKBOOT/RK3588MINIALL.ini" \
+	      --spl "$$build/spl/u-boot-spl.bin" ); \
+	  loader="$$(find "$$rkbin_dir" -maxdepth 1 -name '*loader*.bin' -type f | head -n1)"; \
+	  [ -n "$$loader" ] || { echo "ERROR: USB loader was not generated" >&2; exit 1; }; \
+	  ( cd "$$rkbin" \
+	    && ./rk_sign_tool sl --loader "$$loader" \
+	    && ./rk_sign_tool vl --loader "$$loader" ); \
+	  cp -f "$$loader" "$$build/MiniLoaderAll.signed.bin"; \
+	else \
+	  cd "$$build"; \
+	  ./tools/mkimage -n rk3588 -T rksd -d "$$ddr:spl/u-boot-spl.bin" idbloader.img; \
+	fi
 
 	@dd if=/dev/zero of=debian/build/$@/rkspi_loader.img bs=1M count=0 seek=16
 	@parted -s debian/build/$@/rkspi_loader.img mklabel gpt

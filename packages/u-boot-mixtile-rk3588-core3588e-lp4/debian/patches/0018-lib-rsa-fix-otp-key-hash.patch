@@ -1,0 +1,163 @@
+diff --git a/include/otp-key-hash.h b/include/otp-key-hash.h
+new file mode 100644
+index 0000000..bc121d9
+--- /dev/null
++++ b/include/otp-key-hash.h
+@@ -0,0 +1,68 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++#ifndef __OTP_KEY_HASH_H
++#define __OTP_KEY_HASH_H
++
++/*
++ * Callback used to program the OTP hash.  The offset is relative to the
++ * start of the OTP hash area.
++ */
++typedef int (*otp_key_hash_write_fn)(void *ctx, int offset,
++				     const unsigned char *data, int len);
++
++/*
++ * Compare the recomputed public-key digest with the key node's stored hash.
++ */
++static inline int otp_key_hash_matches(const unsigned char *digest,
++				       const unsigned char *key_hash, int len)
++{
++	int i;
++
++	if (!digest || !key_hash || len < 0)
++		return 0;
++
++	for (i = 0; i < len; i++) {
++		if (digest[i] != key_hash[i])
++			return 0;
++	}
++
++	return 1;
++}
++
++/*
++ * Validate the current OTP hash and write the missing suffix.
++ *
++ * A valid OTP state is either a full match or a matching prefix followed by
++ * zero bytes.  Every byte after the first zero is checked before any write is
++ * attempted, so a dirty tail is rejected without touching the OTP.
++ *
++ * Returns 0 on success (or when nothing needs to be written), a negative
++ * error from the write callback, or -1 for an invalid OTP state.  On an
++ * invalid state the callback is never invoked.
++ */
++static inline int otp_key_hash_apply(const unsigned char *digest,
++				     const unsigned char *otp, int len,
++				     otp_key_hash_write_fn write_fn,
++				     void *ctx, int *written_size)
++{
++	int prefix = 0;
++	int i;
++
++	if (!digest || !otp || len < 0 || !write_fn || !written_size)
++		return -1;
++
++	while (prefix < len && otp[prefix] == digest[prefix])
++		prefix++;
++
++	for (i = prefix; i < len; i++) {
++		if (otp[i] != 0)
++			return -1;
++	}
++
++	*written_size = prefix;
++	if (prefix == len)
++		return 0;
++
++	return write_fn(ctx, prefix, digest + prefix, len - prefix);
++}
++
++#endif /* __OTP_KEY_HASH_H */
+diff --git a/lib/rsa/rsa-verify.c b/lib/rsa/rsa-verify.c
+index 3c656ed..c8d599d 100644
+--- a/lib/rsa/rsa-verify.c
++++ b/lib/rsa/rsa-verify.c
+@@ -23,6 +23,7 @@
+ #endif
+ #include <u-boot/rsa-mod-exp.h>
+ #include <u-boot/rsa.h>
++#include <otp-key-hash.h>
+ 
+ /* Default public exponent for backward compatibility */
+ #define RSA_DEFAULT_PUBEXP	65537
+@@ -597,6 +598,19 @@ int rsa_verify(struct image_sign_info *info,
+ #if !defined(USE_HOSTCC)
+ #if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_FIT_HW_CRYPTO) && \
+     defined(CONFIG_SPL_ROCKCHIP_SECURE_OTP)
++struct rsa_otp_write_ctx {
++	struct udevice *dev;
++};
++
++static int rsa_otp_write(void *ctx, int offset, const unsigned char *data,
++			 int len)
++{
++	struct rsa_otp_write_ctx *otp_ctx = ctx;
++
++	return misc_otp_write(otp_ctx->dev, OTP_RSA_HASH_ADDR + offset,
++			      data, len);
++}
++
+ int rsa_burn_key_hash(struct image_sign_info *info)
+ {
+ 	char *rsa_key;
+@@ -609,7 +623,8 @@ int rsa_burn_key_hash(struct image_sign_info *info)
+ 	const void *blob = info->fdt_blob;
+ 	uint8_t digest[FIT_MAX_HASH_LEN];
+ 	uint8_t digest_read[FIT_MAX_HASH_LEN];
+-	int sig_node, node, digest_len, i;
++	struct rsa_otp_write_ctx otp_ctx;
++	int sig_node, node, digest_len;
+ 	int ret = 0, written_size = 0;
+ 
+ 	/* Check burn-key-hash flag in itb first */
+@@ -678,8 +693,9 @@ int rsa_burn_key_hash(struct image_sign_info *info)
+ 	if (ret)
+ 		goto error;
+ 
+-	if (memcmp(digest, prop.hash, digest_len) != 0) {
++	if (!otp_key_hash_matches(digest, prop.hash, digest_len)) {
+ 		printf("RSA: Compare public key hash fail.\n");
++		ret = -EINVAL;
+ 		goto error;
+ 	}
+ 
+@@ -688,27 +704,18 @@ int rsa_burn_key_hash(struct image_sign_info *info)
+ 	if (ret)
+ 		goto error;
+ 
+-	for (i = 0; i < OTP_RSA_HASH_SIZE; i++) {
+-		if (digest_read[i] == digest[i]) {
+-			written_size++;
+-		} else if (digest_read[i] == 0) {
+-			break;
+-		} else {
++	otp_ctx.dev = dev;
++	ret = otp_key_hash_apply(digest, digest_read, OTP_RSA_HASH_SIZE,
++				 rsa_otp_write, &otp_ctx, &written_size);
++	if (ret) {
++		if (ret == -1) {
+ 			printf("RSA: The secure region has been written.\n");
+ 			ret = -EIO;
+-			goto error;
++		} else {
++			printf("RSA: Write public key hash fail.\n");
+ 		}
+-	}
+-
+-	if (OTP_RSA_HASH_SIZE - written_size) {
+-		ret = misc_otp_write(dev, OTP_RSA_HASH_ADDR + written_size, digest + written_size,
+-				     OTP_RSA_HASH_SIZE - written_size);
+-		if (ret)
+-			goto error;
+-	}
+-
+-	if (ret)
+ 		goto error;
++	}
+ 
+ 	memset(digest_read, 0, FIT_MAX_HASH_LEN);
+ 	ret = misc_otp_read(dev, OTP_RSA_HASH_ADDR, digest_read, OTP_RSA_HASH_SIZE);

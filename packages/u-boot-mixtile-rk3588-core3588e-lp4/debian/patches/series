@@ -14,3 +14,4 @@
 # 0014-board-rockchip-Add-the-ArmSoM-AIM7.patch
 0015-Revert-rockchip-resource-Add-avb-verify.patch
 0016-Remove-support-for-bootable-partition-booting-only.patch
+0018-lib-rsa-fix-otp-key-hash.patch

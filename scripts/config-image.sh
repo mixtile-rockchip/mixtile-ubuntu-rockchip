@@ -35,10 +35,61 @@ fi
 # shellcheck source=/dev/null
 source "../config/flavors/${FLAVOR}.sh"
 
+# shellcheck source=/dev/null
+source "../scripts/secure-boot-common.sh"
+
+SECURE="${SECURE_BOOT:-}"
+if [ "${SECURE}" = "Y" ]; then
+    [ "${SECURE_BOOT_SUPPORTED}" = "Y" ] || {
+        echo "Error: board ${BOARD} does not enable secure boot" >&2
+        exit 1
+    }
+    [ -n "${SECURE_BOOT_KEY_DIR}" ] || {
+        echo "Error: SECURE_BOOT_KEY_DIR is not set" >&2
+        exit 1
+    }
+    repo_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+    secure_boot_validate_keys "${SECURE_BOOT_KEY_DIR}" "${repo_root}"
+    SECURE_BOOT_KEY_DIR="$(readlink -f -- "${SECURE_BOOT_KEY_DIR}")"
+    export SECURE_BOOT_KEY_DIR
+    if [ "${LAUNCHPAD}" = "Y" ]; then
+        echo "Error: --launchpad U-Boot cannot be used in secure mode" >&2
+        exit 1
+    fi
+fi
+
 if [[ ${LAUNCHPAD} != "Y" ]]; then
-    uboot_package="$(basename "$(find u-boot-"${BOARD}"_*.deb | sort | tail -n1)")"
-    if [ ! -e "$uboot_package" ]; then
-        echo 'Error: could not find the u-boot package'
+    uboot_stamp="secureboot-${BOARD}.stamp"
+    expected_mode="normal"
+    expected_key=""
+    if [ "${SECURE}" = "Y" ]; then
+        expected_mode="secure"
+        expected_key="$(secure_boot_key_id "${SECURE_BOOT_KEY_DIR}")"
+    fi
+
+    [ -f "${uboot_stamp}" ] || {
+        echo "Error: missing ${uboot_stamp}; rebuild U-Boot for the current mode" >&2
+        exit 1
+    }
+    stamp_mode="$(secure_boot_stamp_get "${uboot_stamp}" mode || true)"
+    stamp_key="$(secure_boot_stamp_get "${uboot_stamp}" key_id || true)"
+    [ "${stamp_mode}" = "${expected_mode}" ] || {
+        echo "Error: U-Boot stamp mode '${stamp_mode}' does not match '${expected_mode}'" >&2
+        exit 1
+    }
+    [ "${stamp_key}" = "${expected_key}" ] || {
+        echo "Error: U-Boot stamp key does not match the current key" >&2
+        exit 1
+    }
+
+    uboot_package="$(secure_boot_stamp_get "${uboot_stamp}" uboot_deb || true)"
+    [ -n "${uboot_package}" ] && [ -f "${uboot_package}" ] || {
+        echo "Error: selected U-Boot deb is missing: ${uboot_package}" >&2
+        exit 1
+    }
+    if [ "$(secure_boot_file_sha256 "${uboot_package}")" != \
+         "$(secure_boot_stamp_get "${uboot_stamp}" uboot_deb_sha256 || true)" ]; then
+        echo "Error: selected U-Boot deb does not match the stamp" >&2
         exit 1
     fi
 
@@ -148,6 +199,19 @@ else
     chroot ${chroot_dir} dpkg -i "/tmp/${uboot_package}"
     chroot ${chroot_dir} apt-mark hold "$(echo "${uboot_package}" | sed -rn 's/(.*)_[[:digit:]].*/\1/p')"
 
+    # The selected deb must contain the exact final loader and U-Boot FIT
+    # recorded in the stamp.
+    [ "$(secure_boot_file_sha256 "${chroot_dir}/usr/lib/u-boot/idbloader.img")" = \
+      "$(secure_boot_stamp_get "${uboot_stamp}" idbloader_sha256 || true)" ] || {
+        echo "Error: installed idbloader does not match the stamp" >&2
+        exit 1
+    }
+    [ "$(secure_boot_file_sha256 "${chroot_dir}/usr/lib/u-boot/u-boot.itb")" = \
+      "$(secure_boot_stamp_get "${uboot_stamp}" uboot_itb_sha256 || true)" ] || {
+        echo "Error: installed u-boot.itb does not match the stamp" >&2
+        exit 1
+    }
+
     cp "${linux_image_package}" "${linux_headers_package}" "${linux_modules_package}" "${linux_buildinfo_package}" "${linux_rockchip_headers_package}" ${chroot_dir}/tmp/
     chroot ${chroot_dir} /bin/bash -c "apt-get -y purge \$(dpkg --list | grep -Ei 'linux-image|linux-headers|linux-modules|linux-rockchip' | awk '{ print \$2 }')"
     chroot ${chroot_dir} /bin/bash -c "dpkg -i /tmp/{${linux_image_package},${linux_modules_package},${linux_buildinfo_package},${linux_rockchip_headers_package}}"
@@ -176,7 +240,11 @@ EOF
 # Umount the root filesystem
 teardown_mountpoint $chroot_dir
 
-# Compress the root filesystem and then build a disk image
-cd ${chroot_dir} && tar -cpf "../ubuntu-${RELASE_VERSION}-preinstalled-${FLAVOR}-arm64-${BOARD}.rootfs.tar" . && cd .. && rm -rf ${chroot_dir}
-../scripts/build-image.sh "ubuntu-${RELASE_VERSION}-preinstalled-${FLAVOR}-arm64-${BOARD}.rootfs.tar"
-rm -f "ubuntu-${RELASE_VERSION}-preinstalled-${FLAVOR}-arm64-${BOARD}.rootfs.tar"
+# Compress the root filesystem and then build a disk image.  The base tar
+# without a board U-Boot is shared; this board tar contains the selected
+# mode/key U-Boot deb and must never be reused across modes.
+board_rootfs="ubuntu-${RELASE_VERSION}-preinstalled-${FLAVOR}-arm64-${BOARD}.rootfs.tar"
+rm -f "${board_rootfs}"
+cd ${chroot_dir} && tar -cpf "../${board_rootfs}" . && cd .. && rm -rf ${chroot_dir}
+../scripts/build-image.sh "${board_rootfs}"
+rm -f "${board_rootfs}"

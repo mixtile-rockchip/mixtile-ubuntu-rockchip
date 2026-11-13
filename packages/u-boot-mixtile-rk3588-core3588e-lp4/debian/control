@@ -285,7 +285,8 @@ Description: A boot loader for the Mixtile Core 3588E.
  used as the default boot loader by several board vendors.  It is
  intended to be easy to port and to debug, and runs on many
  supported architectures, including PPC, ARM, MIPS, x86, m68k,
- NIOS, and Microblaze.
+ NIOS, and Microblaze.  Secure builds of this package contain signed
+ boot artifacts; the Debian package itself is not signed.
 
 Package: u-boot-orangepi-5
 Architecture: arm64

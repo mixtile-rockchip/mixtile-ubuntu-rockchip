@@ -7,6 +7,8 @@ export BOARD_CPU="ARM Cortex A76 / A55"
 export KERNEL_PACKAGE="kernel-mixtile-rk3588-core3588e-lp4"
 export UBOOT_PACKAGE="u-boot-mixtile-rk3588-core3588e-lp4"
 export UBOOT_RULES_TARGET="mixtile-core3588e-lp4-rk3588"
+export KERNEL_DTB="rk3588-mixtile-core3588e-lp4.dtb"
+export SECURE_BOOT_SUPPORTED="Y"
 export COMPATIBLE_SUITES=("jammy" "noble")
 export COMPATIBLE_FLAVORS=("server" "desktop")
 
@@ -42,8 +44,6 @@ function config_image_hook__mixtile-core3588e-lp4() {
     chroot "${rootfs}" dpkg -i /tmp/rockchip-adbd.deb
     echo "BUILD_ID=$(date +'%Y-%m-%d')" >> "${rootfs}/etc/os-release"
 
-    chroot "${rootfs}" sed -i '/^menu title/d' /usr/sbin/u-boot-update
-    chroot "${rootfs}" sed -i 's/^U_BOOT_PROMPT=.*$/U_BOOT_PROMPT="0"/' /usr/share/u-boot-menu/conf.d/ubuntu.conf
     chroot "${rootfs}" apt-mark hold u-boot-menu
 
     if [ "$FLAVOR" = "server" ]; then
